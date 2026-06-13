@@ -1,0 +1,143 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "strands-cosmos"
+dynamic = ["version"]
+description = "NVIDIA Cosmos provider for Strands Agents - physical AI reasoning, video understanding, and embodied intelligence"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Amazon Web Services"}
+]
+keywords = [
+    "strands",
+    "agents",
+    "cosmos",
+    "nvidia",
+    "vlm",
+    "video",
+    "reasoning",
+    "policy",
+    "physical-ai",
+    "robotics",
+    "embodied",
+    "qwen3-vl",
+    "jetson",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "strands-agents",
+    # `just` recipe runner shipped as a pip wheel (platform binaries) so
+    # `pip install strands-cosmos` puts `just` on PATH with no system install.
+    # All pipelines flow through the justfile; this guarantees it Just Works.
+    "rust-just>=1.40",
+    "transformers>=4.57.0,!=5.0.*,!=5.1.*,!=5.2.*,!=5.3.*,!=5.4.*,!=5.5.0,<6.0.0",
+    "accelerate>=1.12.0,<2.0.0",
+    "torch>=2.0.0,<3.0.0",
+    "torchvision>=0.15.0,<1.0.0",
+    "qwen-vl-utils>=0.0.14,<1.0.0",
+    "pillow>=10.0.0,<13.0.0",
+    "pyyaml>=6.0,<7.0",
+    "av>=16.0.0,<17.0.0",
+    # transformers 5.x video processor decodes with torchcodec and otherwise
+    # falls back to torchvision, whose io.read_video was removed in >=0.27.
+    "torchcodec; python_version >= \"3.10\"",
+]
+
+[project.optional-dependencies]
+vllm = [
+    "vllm>=0.22.0,<1.0.0",
+    "strands-agents[openai]",
+]
+# Cosmos 3 reasoner client (talks to a local vLLM server). The heavier
+# generator/action backends (vllm-cosmos3, diffusers, Cosmos Framework) are
+# installed into dedicated uv venvs via the justfile `c3-setup-*` recipes.
+cosmos3 = [
+    "strands-agents[openai]",
+]
+# Cosmos 3 generator (in-process Diffusers): text/image -> image/video/sound.
+# diffusers must be the dev build (Cosmos3OmniPipeline); cosmos_guardrail is the
+# required safety checker; soundfile + imageio handle audio muxing / video write.
+cosmos3-gen = [
+    # NOTE: the Cosmos 3 generator needs the diffusers *dev* build that ships
+    # Cosmos3OmniPipeline. PyPI forbids direct-URL deps in published metadata, so
+    # we require plain `diffusers` here and pin the dev build at install time via
+    # `just c3-setup-gen` (or `pip install -U "git+https://github.com/huggingface/diffusers.git"`).
+    "diffusers>=0.36,<1.0",
+    "cosmos_guardrail",
+    "soundfile",
+    "imageio",
+    "imageio-ffmpeg",
+    "accelerate>=1.12.0",
+]
+jetson = [
+    # Jetson users: torch is pre-installed via NVIDIA JetPack / pip index
+    # This extra just documents the recommended companion packages
+    "torchcodec; python_version>='3.10'",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio",
+    "ruff",
+]
+all = [
+    "strands-agents-tools",
+    "vllm>=0.22.0",
+    "strands-agents[openai]",
+    "diffusers>=0.36,<1.0",
+    "cosmos_guardrail",
+    "soundfile",
+    "imageio",
+    "imageio-ffmpeg",
+    "pytest>=7.0",
+    "ruff",
+]
+
+[project.scripts]
+strands-cosmos-fix-cublas = "strands_cosmos.fix_cublas:main"
+
+[project.urls]
+Homepage = "https://github.com/cagataycali/strands-cosmos"
+Repository = "https://github.com/cagataycali/strands-cosmos"
+Issues = "https://github.com/cagataycali/strands-cosmos/issues"
+
+[tool.setuptools.package-data]
+strands_cosmos = ["justfile"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["strands_cosmos*"]
+exclude = ["tests*"]
+
+[tool.setuptools_scm]
+write_to = "strands_cosmos/_version.py"
+# Fall back to this version when building outside a git checkout / before the
+# first v* tag (e.g. sdist installs). Tagged builds use the tag itself.
+fallback_version = "0.3.0"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

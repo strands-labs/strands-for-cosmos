@@ -1,0 +1,98 @@
+site_name: Strands Cosmos
+site_url: https://cagataycali.github.io/strands-cosmos
+site_description: "NVIDIA Cosmos toolkit for Strands Agents - Cosmos-Reason2 VLM + Cosmos 3 omnimodal world models (reasoning, video/audio/action generation), edge deployment, and evaluation."
+repo_url: https://github.com/cagataycali/strands-cosmos
+repo_name: cagataycali/strands-cosmos
+extra_css:
+- stylesheets/extra.css?v=3
+extra_javascript:
+- https://unpkg.com/mermaid@10/dist/mermaid.min.js
+nav:
+- Home: index.md
+- Getting Started:
+  - Installation: getting-started/installation.md
+  - Quickstart: getting-started/quickstart.md
+- Notebooks: notebooks.md
+- Guide:
+  - Cosmos 3 (Omnimodal): guide/cosmos3.md
+  - Cosmos 3 Training (SFT): guide/cosmos3-training.md
+  - Video Understanding: guide/video-understanding.md
+  - Image Reasoning: guide/image-reasoning.md
+  - Chain-of-Thought: guide/chain-of-thought.md
+  - Tool Usage: guide/tool-usage.md
+  - Jetson Deployment: guide/jetson.md
+- Examples:
+  - Overview: examples/overview.md
+  - Basic Text: examples/basic-text.md
+  - Video Caption: examples/video-caption.md
+  - Driving Analysis: examples/driving.md
+  - Embodied Reasoning: examples/embodied.md
+  - Tool Usage: examples/tool-usage.md
+- Architecture: architecture.md
+- API Reference: api-reference.md
+- Changelog: changelog.md
+theme:
+  name: material
+  logo: strands-cosmos-logo.svg
+  favicon: strands-cosmos-logo.svg
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: white
+      accent: green
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: green
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+  - navigation.sections
+  - navigation.expand
+  - navigation.indexes
+  - toc.follow
+  - content.code.copy
+  - content.code.annotate
+  - content.tabs.link
+  - navigation.top
+  - navigation.tracking
+  - search.suggest
+  - search.highlight
+markdown_extensions:
+- pymdownx.highlight:
+    anchor_linenums: true
+    line_spans: __span
+    pygments_lang_class: true
+- pymdownx.inlinehilite
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ''
+- pymdownx.tabbed:
+    alternate_style: true
+- admonition
+- pymdownx.details
+- pymdownx.betterem
+- pymdownx.mark
+- pymdownx.caret
+- pymdownx.tilde
+- pymdownx.keys
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji ''
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
+- attr_list
+- md_in_html
+- tables
+- def_list
+- footnotes
+- toc:
+    permalink: true
+plugins:
+- search
