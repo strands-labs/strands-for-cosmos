@@ -1,0 +1,221 @@
+<svg width="290" height="463" viewBox="0 0 290 463" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- NVIDIA green gradient for main strand -->
+    <linearGradient id="greenStrand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#76b900"/>
+      <stop offset="50%" stop-color="#00FF77"/>
+      <stop offset="100%" stop-color="#76b900"/>
+    </linearGradient>
+    <!-- Deep space gradient for cosmos strand -->
+    <linearGradient id="cosmosStrand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="30%" stop-color="#8B5CF6"/>
+      <stop offset="60%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <!-- Nebula glow -->
+    <radialGradient id="nebula1" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#6366F1" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebula2" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#F472B6" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#EC4899" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#EC4899" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebula3" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#3B82F6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Star glow -->
+    <radialGradient id="starGlow" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#E0E7FF" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#6366F1" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Planet gradients -->
+    <radialGradient id="planet1" cx="35%" cy="30%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </radialGradient>
+    <radialGradient id="planet2" cx="35%" cy="30%">
+      <stop offset="0%" stop-color="#93C5FD"/>
+      <stop offset="40%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </radialGradient>
+    <radialGradient id="planet3" cx="35%" cy="30%">
+      <stop offset="0%" stop-color="#FCA5A5"/>
+      <stop offset="40%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </radialGradient>
+    <!-- Eye/lens gradient (for the "vision" aspect) -->
+    <radialGradient id="lens" cx="45%" cy="40%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="20%" stop-color="#C4B5FD"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="80%" stop-color="#4C1D95"/>
+      <stop offset="100%" stop-color="#1E1B4B"/>
+    </radialGradient>
+    <!-- Orbit ring gradient -->
+    <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A78BFA" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#C4B5FD" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#A78BFA" stop-opacity="0.8"/>
+    </linearGradient>
+    <!-- Filters -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="starglow">
+      <feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigglow">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <!-- ====== GREEN STRAND (intelligence ribbon — the Strands identity) ====== -->
+  <path d="M259.147 0.981812C271.389 -2.57498 284.197 4.46571 287.754 16.7074C291.311 28.9492 284.27 41.757 272.028 45.3138L71.1727 103.671C40.7142 112.521 37.1976 154.262 65.7459 168.083L241.343 253.093C307.872 285.302 299.794 382.546 228.862 403.336L30.4041 461.502C18.1707 465.088 5.34708 458.078 1.76153 445.844C-1.8239 433.611 5.18637 420.787 17.4197 417.202L215.878 359.035C246.277 350.125 249.739 308.449 221.226 294.645L45.6297 209.635C-20.9834 177.386 -12.7772 79.9893 58.2928 59.3402L259.147 0.981812Z" fill="#00FF77"/>
+
+  <!-- ====== COSMOS STRAND (replaces gray strand — deep space with celestial bodies) ====== -->
+  
+  <!-- Nebula clouds along the cosmos strand path (behind the strand) -->
+  <ellipse cx="105" cy="80" rx="35" ry="25" fill="url(#nebula1)" filter="url(#bigglow)"/>
+  <ellipse cx="200" cy="155" rx="30" ry="22" fill="url(#nebula2)" filter="url(#bigglow)"/>
+  <ellipse cx="75" cy="240" rx="32" ry="20" fill="url(#nebula3)" filter="url(#bigglow)"/>
+  <ellipse cx="15" cy="345" rx="28" ry="22" fill="url(#nebula1)" filter="url(#bigglow)"/>
+  <ellipse cx="140" cy="400" rx="30" ry="20" fill="url(#nebula2)" filter="url(#bigglow)"/>
+
+  <!-- The cosmos strand path (follows the original gray strand trajectory) -->
+  <!-- Main body: thick cosmic ribbon -->
+  <path d="M97.3 52.8 C102 75, 105 90, 108 103.8 C130 112, 170 122, 201.5 130.2 C204 145, 205 160, 205.9 176.3 C175 190, 145 205, 118.4 218.7 C85 232, 55 248, 31 261.1 C22 290, 14 318, 9.8 344.5 C40 358, 65 370, 96.3 383.7 C130 393, 160 402, 189.6 411" 
+    stroke="url(#cosmosStrand)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.9"/>
+  
+  <!-- Subtle inner glow on cosmos strand -->
+  <path d="M97.3 52.8 C102 75, 105 90, 108 103.8 C130 112, 170 122, 201.5 130.2 C204 145, 205 160, 205.9 176.3 C175 190, 145 205, 118.4 218.7 C85 232, 55 248, 31 261.1 C22 290, 14 318, 9.8 344.5 C40 358, 65 370, 96.3 383.7 C130 393, 160 402, 189.6 411" 
+    stroke="#C4B5FD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.3"/>
+
+  <!-- ====== CELESTIAL BODIES along the cosmos strand ====== -->
+
+  <!-- === VISION EYE (central feature at the main crossing point) === -->
+  <!-- This represents "Cosmos Vision" — an all-seeing cosmic eye -->
+  <g transform="translate(118.4, 218.7)">
+    <!-- Outer glow ring -->
+    <circle r="22" fill="url(#nebula1)" filter="url(#softglow)"/>
+    <!-- Eye outer -->
+    <circle r="14" fill="#1E1B4B" stroke="#A78BFA" stroke-width="1.5"/>
+    <!-- Iris -->
+    <circle r="10" fill="url(#lens)"/>
+    <!-- Pupil -->
+    <circle r="4" fill="#1E1B4B"/>
+    <!-- Pupil highlight -->
+    <circle cx="-2" cy="-2" r="2" fill="white" opacity="0.8"/>
+    <circle cx="2" cy="1" r="0.8" fill="white" opacity="0.5"/>
+    <!-- Orbit ring around the eye -->
+    <ellipse rx="20" ry="7" fill="none" stroke="url(#orbitGrad)" stroke-width="1.2" transform="rotate(-20)"/>
+    <!-- Tiny orbiting dot -->
+    <circle cx="19" cy="-5" r="2" fill="#FDE68A" filter="url(#starglow)"/>
+  </g>
+
+  <!-- === PLANET 1 (golden, near shoulder) === -->
+  <g transform="translate(108, 103.8)">
+    <circle r="8" fill="url(#nebula2)" filter="url(#softglow)"/>
+    <circle r="8" fill="url(#planet1)"/>
+    <!-- Ring -->
+    <ellipse rx="13" ry="3.5" fill="none" stroke="#FDE68A" stroke-width="1" opacity="0.7" transform="rotate(-15)"/>
+    <!-- Highlight -->
+    <circle cx="-2.5" cy="-2.5" r="2.5" fill="white" opacity="0.3"/>
+  </g>
+
+  <!-- === PLANET 2 (blue, at elbow) === -->
+  <g transform="translate(201.5, 130.2)">
+    <circle r="7" fill="url(#nebula3)" filter="url(#softglow)"/>
+    <circle r="7" fill="url(#planet2)"/>
+    <!-- Highlight -->
+    <circle cx="-2" cy="-2" r="2" fill="white" opacity="0.3"/>
+  </g>
+
+  <!-- === PLANET 3 (small red, at bend) === -->
+  <g transform="translate(205.9, 176.3)">
+    <circle r="5.5" fill="url(#planet3)"/>
+    <circle cx="-1.5" cy="-1.5" r="1.5" fill="white" opacity="0.25"/>
+  </g>
+
+  <!-- === PLANET 4 (blue-purple, lower) === -->
+  <g transform="translate(31, 261.1)">
+    <circle r="7" fill="url(#nebula1)" filter="url(#softglow)"/>
+    <circle r="6.5" fill="url(#planet2)"/>
+    <ellipse rx="11" ry="3" fill="none" stroke="#93C5FD" stroke-width="0.8" opacity="0.6" transform="rotate(10)"/>
+    <circle cx="-2" cy="-2" r="1.8" fill="white" opacity="0.3"/>
+  </g>
+
+  <!-- === PLANET 5 (golden, lower crossing) === -->
+  <g transform="translate(9.8, 344.5)">
+    <circle r="6" fill="url(#planet1)"/>
+    <circle cx="-1.5" cy="-1.5" r="1.5" fill="white" opacity="0.3"/>
+  </g>
+
+  <!-- === END POINT (small galaxy/starburst at gripper position) === -->
+  <g transform="translate(189.6, 411)">
+    <circle r="15" fill="url(#nebula2)" filter="url(#bigglow)"/>
+    <circle r="5" fill="url(#planet3)"/>
+    <!-- Cross starburst -->
+    <line x1="-10" y1="0" x2="10" y2="0" stroke="#F472B6" stroke-width="0.8" opacity="0.6"/>
+    <line x1="0" y1="-10" x2="0" y2="10" stroke="#F472B6" stroke-width="0.8" opacity="0.6"/>
+    <line x1="-7" y1="-7" x2="7" y2="7" stroke="#F472B6" stroke-width="0.5" opacity="0.4"/>
+    <line x1="7" y1="-7" x2="-7" y2="7" stroke="#F472B6" stroke-width="0.5" opacity="0.4"/>
+    <circle r="2" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- === START POINT (star at shoulder) === -->
+  <g transform="translate(97.3, 52.8)">
+    <circle r="10" fill="url(#nebula1)" filter="url(#bigglow)"/>
+    <circle r="4" fill="#C4B5FD" filter="url(#starglow)"/>
+    <circle r="1.5" fill="white"/>
+  </g>
+
+  <!-- === ORBIT LINE at wrist === -->
+  <g transform="translate(96.3, 383.7)">
+    <circle r="6" fill="url(#planet2)"/>
+    <ellipse rx="10" ry="3.5" fill="none" stroke="#93C5FD" stroke-width="0.8" opacity="0.5" transform="rotate(-25)"/>
+    <circle cx="-1.5" cy="-1.5" r="1.5" fill="white" opacity="0.3"/>
+  </g>
+
+  <!-- ====== SCATTERED STARS (tiny sparkles along the cosmos strand) ====== -->
+  <!-- Stars near the strand path -->
+  <circle cx="85" cy="68" r="1.2" fill="white" opacity="0.8" filter="url(#starglow)"/>
+  <circle cx="115" cy="88" r="0.8" fill="white" opacity="0.6"/>
+  <circle cx="155" cy="118" r="1" fill="white" opacity="0.7" filter="url(#starglow)"/>
+  <circle cx="185" cy="125" r="0.6" fill="white" opacity="0.5"/>
+  <circle cx="215" cy="150" r="1.1" fill="white" opacity="0.7" filter="url(#starglow)"/>
+  <circle cx="195" cy="195" r="0.7" fill="white" opacity="0.6"/>
+  <circle cx="160" cy="208" r="1" fill="white" opacity="0.8" filter="url(#starglow)"/>
+  <circle cx="85" cy="235" r="0.8" fill="white" opacity="0.6"/>
+  <circle cx="50" cy="252" r="1.2" fill="white" opacity="0.7" filter="url(#starglow)"/>
+  <circle cx="22" cy="290" r="0.7" fill="white" opacity="0.5"/>
+  <circle cx="15" cy="320" r="1" fill="white" opacity="0.7" filter="url(#starglow)"/>
+  <circle cx="28" cy="365" r="0.8" fill="white" opacity="0.6"/>
+  <circle cx="55" cy="375" r="1.1" fill="white" opacity="0.8" filter="url(#starglow)"/>
+  <circle cx="130" cy="395" r="0.7" fill="white" opacity="0.5"/>
+  <circle cx="165" cy="405" r="1" fill="white" opacity="0.7" filter="url(#starglow)"/>
+  <circle cx="200" cy="425" r="0.8" fill="white" opacity="0.6"/>
+
+  <!-- Slightly larger accent stars -->
+  <circle cx="140" cy="148" r="1.5" fill="#FDE68A" opacity="0.6" filter="url(#starglow)"/>
+  <circle cx="70" cy="260" r="1.3" fill="#93C5FD" opacity="0.5" filter="url(#starglow)"/>
+  <circle cx="45" cy="330" r="1.4" fill="#F472B6" opacity="0.5" filter="url(#starglow)"/>
+  <circle cx="110" cy="395" r="1.3" fill="#FDE68A" opacity="0.5" filter="url(#starglow)"/>
+
+  <!-- ====== GREEN ENERGY at crossing points (where green strand meets cosmos) ====== -->
+  <circle cx="108" cy="103.8" r="6" fill="#00FF77" opacity="0.1" filter="url(#softglow)"/>
+  <circle cx="118.4" cy="218.7" r="8" fill="#00FF77" opacity="0.1" filter="url(#softglow)"/>
+  <circle cx="9.8" cy="344.5" r="6" fill="#00FF77" opacity="0.1" filter="url(#softglow)"/>
+</svg>

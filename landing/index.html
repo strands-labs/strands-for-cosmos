@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>strands-cosmos · Full-Lifecycle NVIDIA Cosmos Toolkit for AI Agents</title>
+<meta name="description" content="21 tools + 2 model providers for the full NVIDIA Cosmos ecosystem. Reason2 VLM, Predict2.5, Transfer2.5, edge deployment on Jetson Thor.">
+<meta name="theme-color" content="#0b0f14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f9fc" media="(prefers-color-scheme: light)">
+<meta property="og:title" content="strands-cosmos">
+<meta property="og:description" content="Give your AI agent eyes that understand physics. 21 tools for the full Cosmos lifecycle.">
+<meta name="author" content="Cagatay Cali">
+<link rel="icon" href="../strands-cosmos-logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* ===== TOKENS ===== */
+@property --cosmos-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #76b900;
+}
+@property --cosmos-accent-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #43e8d8;
+}
+
+:root {
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --fs-xs: clamp(.72rem,.7rem + .15vw,.8rem);
+  --fs-sm: clamp(.85rem,.8rem + .2vw,.92rem);
+  --fs-md: clamp(1rem,.95rem + .25vw,1.08rem);
+  --fs-lg: clamp(1.2rem,1.05rem + .7vw,1.5rem);
+  --fs-xl: clamp(1.8rem,1.4rem + 2vw,3rem);
+  --fs-hero: clamp(2.8rem,2rem + 4.5vw,5.5rem);
+  --sp-1:.25rem;--sp-2:.5rem;--sp-3:.75rem;--sp-4:1rem;--sp-5:1.5rem;--sp-6:2rem;--sp-7:3rem;--sp-8:5rem;--sp-9:8rem;
+  --r-sm:6px;--r-md:12px;--r-lg:20px;--r-xl:28px;
+  --dur-fast:160ms;--dur-med:320ms;--dur-slow:640ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);
+
+  /* Dark (default) */
+  --bg: #0b0f14;
+  --bg-soft: #0f151c;
+  --bg-elev: #141b24;
+  --fg: #e7eef6;
+  --fg-dim: #9aa9bb;
+  --fg-faint: #5b6876;
+  --border: #1e2732;
+  --ring: color-mix(in oklab, var(--cosmos-accent) 60%, transparent);
+  --grad: linear-gradient(135deg, var(--cosmos-accent), var(--cosmos-accent-2));
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fc;
+    --bg-soft: #ffffff;
+    --bg-elev: #ffffff;
+    --fg: #0e1620;
+    --fg-dim: #4b5866;
+    --fg-faint: #8a97a6;
+    --border: #e3e8ee;
+  }
+}
+
+/* ===== RESET + BASE ===== */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;font-family:var(--font-body);font-size:var(--fs-md);line-height:1.6;color:var(--fg);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip}
+img,svg,video,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none;transition:opacity var(--dur-fast) var(--ease-out)}
+a:hover{opacity:.75}
+a:focus-visible{outline:2px solid var(--ring);outline-offset:3px;border-radius:4px}
+
+/* ===== TYPOGRAPHY ===== */
+h1,h2,h3{font-weight:700;line-height:1.05;letter-spacing:-.02em;margin:0 0 var(--sp-4);text-wrap:balance}
+h1{font-size:var(--fs-hero)}
+h1 .sub{display:block;font-size:var(--fs-lg);font-weight:420;color:var(--fg-dim);margin-top:var(--sp-3);letter-spacing:-.01em}
+h1 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:var(--fs-xl);max-width:22ch}
+h3{font-size:var(--fs-lg)}
+p{margin:0 0 var(--sp-4);max-width:62ch;text-wrap:pretty}
+em{color:var(--cosmos-accent);font-style:normal}
+strong{font-weight:620;color:var(--fg)}
+
+.eyebrow{font-family:var(--font-mono);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.2em;color:var(--fg-dim);margin-bottom:var(--sp-3)}
+.lede{font-size:var(--fs-lg);color:var(--fg-dim);max-width:52ch}
+
+/* ===== HEADER ===== */
+.site-header{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2);background:color-mix(in oklab, var(--bg) 70%, transparent);border-bottom:1px solid color-mix(in oklab, var(--border) 60%, transparent)}
+.site-header nav{max-width:1200px;margin:0 auto;padding:var(--sp-3) var(--sp-5);display:flex;align-items:center;justify-content:space-between;gap:var(--sp-5)}
+.wordmark{display:inline-flex;align-items:center;gap:var(--sp-2);font-weight:700;letter-spacing:-.01em}
+.wordmark img{width:24px;height:24px}
+.nav-links{list-style:none;margin:0;padding:0;display:flex;gap:var(--sp-5);font-size:var(--fs-sm);color:var(--fg-dim)}
+.nav-links a:hover{color:var(--cosmos-accent);opacity:1}
+@media(max-width:640px){.nav-links li:nth-child(-n+3){display:none}}
+
+/* ===== SECTIONS ===== */
+main{display:block}
+.section{padding:var(--sp-9) var(--sp-5);max-width:1200px;margin:0 auto;position:relative}
+.section header{margin-bottom:var(--sp-6)}
+
+/* ===== HERO ===== */
+.section-hero{min-height:min(100svh,960px);display:grid;place-items:center;padding-top:var(--sp-7);position:relative}
+.stage{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;mask-image:radial-gradient(55% 55% at 50% 40%,#000,transparent 80%)}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 0 60px color-mix(in oklab, var(--cosmos-accent) 30%, transparent))}
+.hero-copy{position:relative;z-index:1;max-width:60ch;text-align:center;padding:0 var(--sp-4)}
+.hero-copy .cta-row{margin-top:var(--sp-5);justify-content:center}
+
+/* ===== CTAs ===== */
+.cta-row{display:inline-flex;gap:var(--sp-3);flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:var(--sp-2);padding:var(--sp-3) var(--sp-5);border-radius:999px;font-weight:600;background:var(--grad);color:#0b0f14;transition:transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast);box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 8px 24px color-mix(in oklab, var(--cosmos-accent) 25%, transparent)}
+.cta:hover{transform:translateY(-2px);opacity:1}
+.cta-ghost{background:transparent;color:var(--fg);border:1px solid var(--border);box-shadow:none}
+.cta-ghost:hover{border-color:var(--cosmos-accent)}
+
+/* ===== STATS ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4);padding:var(--sp-6) var(--sp-5);max-width:700px;margin:0 auto;text-align:center}
+.stat-num{font-size:var(--fs-xl);font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-label{font-size:var(--fs-xs);color:var(--fg-faint);margin-top:var(--sp-1)}
+
+/* ===== FEATURE CARDS ===== */
+.grid-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-4);margin-top:var(--sp-5)}
+.card{padding:var(--sp-6);border:1px solid var(--border);border-radius:var(--r-xl);background:linear-gradient(180deg,var(--bg-soft),var(--bg));transition:transform var(--dur-med) var(--ease-out),border-color var(--dur-med);position:relative;overflow:hidden}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in oklab, var(--cosmos-accent) 35%, var(--border))}
+.card-icon{font-size:2em;margin-bottom:var(--sp-3)}
+.card h3{margin:0 0 var(--sp-2);font-size:var(--fs-lg)}
+.card p{margin:0;color:var(--fg-dim);font-size:var(--fs-sm)}
+.card::after{content:"";position:absolute;inset:auto -40px -40px auto;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,color-mix(in oklab, var(--cosmos-accent) 20%, transparent),transparent 70%);filter:blur(20px);pointer-events:none}
+
+/* ===== PIPELINE ===== */
+.pipeline-wrap{margin-top:var(--sp-6);padding:var(--sp-6);background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--r-xl);overflow-x:auto}
+.pipeline-flow{display:flex;align-items:center;gap:var(--sp-3);min-width:max-content}
+.pipe-step{padding:var(--sp-3) var(--sp-5);border:1px solid var(--border);border-radius:var(--r-lg);background:var(--bg-soft);text-align:center;flex-shrink:0}
+.pipe-step strong{display:block;font-size:var(--fs-sm);color:var(--cosmos-accent)}
+.pipe-step span{font-size:var(--fs-xs);color:var(--fg-faint)}
+.pipe-arrow{color:var(--cosmos-accent);font-size:1.2em;flex-shrink:0}
+
+/* ===== INSTALL ===== */
+.install-box{font-family:var(--font-mono);font-size:var(--fs-sm);padding:var(--sp-4) var(--sp-5);background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--r-lg);display:inline-block;margin-top:var(--sp-5)}
+.install-box .prompt{color:var(--cosmos-accent)}
+
+/* ===== FOOTER ===== */
+.site-footer{padding:var(--sp-7) var(--sp-5);border-top:1px solid var(--border);color:var(--fg-faint);text-align:center;font-size:var(--fs-sm)}
+.site-footer a{color:var(--cosmos-accent)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fade-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){
+  [data-stagger]{animation:fade-up var(--dur-slow) var(--ease-out) both;animation-delay:calc((var(--i,1) - 1) * 120ms + 60ms)}
+  [data-stagger="1"]{--i:1}[data-stagger="2"]{--i:2}[data-stagger="3"]{--i:3}[data-stagger="4"]{--i:4}[data-stagger="5"]{--i:5}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .section{padding:var(--sp-7) var(--sp-4)}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav aria-label="primary">
+    <a class="wordmark" href="./">
+      <img src="../strands-cosmos-logo.svg" alt="">
+      <span>strands-cosmos</span>
+    </a>
+    <ul role="list" class="nav-links">
+      <li><a href="#features">features</a></li>
+      <li><a href="#pipeline">pipeline</a></li>
+      <li><a href="#install">install</a></li>
+      <li><a href="../">docs</a></li>
+      <li><a href="https://pypi.org/project/strands-cosmos/" target="_blank" rel="noopener">PyPI ↗</a></li>
+      <li><a href="https://github.com/cagataycali/strands-cosmos" target="_blank" rel="noopener">GitHub ↗</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<section class="section section-hero" aria-label="introduction">
+  <div class="stage">
+    <svg viewBox="0 0 480 480" aria-hidden="true" focusable="false">
+      <use href="assets/hero.svg#hero" x="0" y="0"/>
+    </svg>
+    <object type="image/svg+xml" data="assets/hero.svg" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%"></object>
+  </div>
+
+  <div class="hero-copy">
+    <p class="eyebrow" data-stagger="1">21 tools · 2 providers · jetson native</p>
+    <h1 data-stagger="2">
+      <span class="grad">strands-cosmos</span>
+      <span class="sub">full-lifecycle NVIDIA Cosmos toolkit for <em>AI agents</em></span>
+    </h1>
+    <p class="lede" data-stagger="3">
+      Give your agent eyes that understand physics. From VLM reasoning to world-model generation, edge deployment, and evaluation — <strong>one toolkit, every stage</strong>.
+    </p>
+    <div class="cta-row" data-stagger="4">
+      <a class="cta" href="#features">explore features</a>
+      <a class="cta cta-ghost" href="../getting-started/quickstart/">quickstart</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="stats" data-stagger="5">
+    <div><div class="stat-num">21</div><div class="stat-label">Tools</div></div>
+    <div><div class="stat-num">2</div><div class="stat-label">Model Providers</div></div>
+    <div><div class="stat-num">1.4s</div><div class="stat-label">Text Gen (Thor)</div></div>
+    <div><div class="stat-num">2.2s</div><div class="stat-label">Video Caption</div></div>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <header>
+    <p class="eyebrow">capabilities</p>
+    <h2>every stage of the Cosmos lifecycle.</h2>
+  </header>
+  <div class="grid-features">
+    <article class="card">
+      <div class="card-icon">🧠</div>
+      <h3>Reason2 VLM</h3>
+      <p>Video + image + text understanding with Chain-of-Thought reasoning. Physics, driving, robots — all with thinking tokens.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">🌍</div>
+      <h3>Predict 2.5</h3>
+      <p>World-model video generation — predict future frames from context. Cosmos Policy for robot control actions.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">🎨</div>
+      <h3>Transfer 2.5</h3>
+      <p>ControlNet video-to-video. Depth, edge, sketch conditioning for sim-to-real domain transfer.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">⚡</div>
+      <h3>Edge Deployment</h3>
+      <p>FP8 quantize → ONNX export → TensorRT engine build → serve. One pipeline, Jetson AGX Thor native.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">🎓</div>
+      <h3>Post-Training</h3>
+      <p>SFT, LoRA, distillation (8B→2B). Fine-tune Reason2 on your domain data with a single tool call.</p>
+    </article>
+    <article class="card">
+      <div class="card-icon">📊</div>
+      <h3>Evaluation</h3>
+      <p>FID, FVD, CSE, CLIP benchmarks. Automated quality gates for every pipeline stage.</p>
+    </article>
+  </div>
+</section>
+
+<section id="pipeline" class="section">
+  <header>
+    <p class="eyebrow">pipeline</p>
+    <h2>full pipeline in <em>one agent</em>.</h2>
+    <p class="lede">All orchestrated by a single Strands Agent — or one <code>just</code> command.</p>
+  </header>
+  <div class="pipeline-wrap">
+    <div class="pipeline-flow">
+      <div class="pipe-step"><strong>Download</strong><span>model_download</span></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><strong>Quantize</strong><span>FP8 / INT8</span></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><strong>Export</strong><span>ONNX</span></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><strong>Build Engine</strong><span>TensorRT</span></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><strong>Serve</strong><span>Edge server</span></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:var(--cosmos-accent)"><strong>Inference</strong><span>&lt;50ms</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="install" class="section" style="text-align:center">
+  <header style="display:flex;flex-direction:column;align-items:center">
+    <p class="eyebrow">get started</p>
+    <h2>two lines. that's it.</h2>
+  </header>
+  <div class="install-box">
+    <span class="prompt">$</span> pip install strands-cosmos
+  </div>
+  <p style="margin-top:var(--sp-5);color:var(--fg-dim);font-size:var(--fs-sm)">
+    Then give your agent Cosmos superpowers:<br>
+    <code style="font-family:var(--font-mono);background:var(--bg-elev);padding:2px 8px;border-radius:4px;font-size:var(--fs-xs)">from strands_cosmos import cosmos_reason, cosmos_predict, cosmos_transfer</code>
+  </p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <p>
+    Apache 2.0 · Built with <a href="https://build.nvidia.com/explore/cosmos">NVIDIA Cosmos</a> and <a href="https://github.com/strands-agents/sdk-python">Strands Agents</a> · Verified on Jetson AGX Thor
+  </p>
+</footer>
+
+</body>
+</html>

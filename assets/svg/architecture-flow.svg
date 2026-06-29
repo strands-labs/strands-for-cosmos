@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#76b900"/>
+    </marker>
+  </defs>
+  <rect width="700" height="300" fill="#fafafa" rx="12"/>
+  
+  <!-- Layer 1: User -->
+  <rect x="20" y="30" width="120" height="50" rx="10" fill="#264653" filter="url(#shadow)"/>
+  <text x="80" y="60" text-anchor="middle" font-size="12" fill="#fff" font-weight="600">Your Code</text>
+  
+  <!-- Layer 2: Strands Agent -->
+  <rect x="180" y="30" width="140" height="50" rx="10" fill="#76b900"/>
+  <text x="250" y="55" text-anchor="middle" font-size="11" fill="#fff" font-weight="600">Strands Agent</text>
+  <text x="250" y="70" text-anchor="middle" font-size="9" fill="#fff" opacity=".8">model + tools</text>
+  
+  <!-- Layer 3: strands-cosmos -->
+  <rect x="360" y="10" width="320" height="90" rx="12" fill="#fff" stroke="#76b900" stroke-width="2"/>
+  <text x="520" y="30" text-anchor="middle" font-size="10" font-weight="600" fill="#76b900">strands-cosmos v0.2.0</text>
+  <rect x="375" y="40" width="70" height="24" rx="4" fill="#76b900" opacity=".15"/><text x="410" y="56" text-anchor="middle" font-size="8">Model</text>
+  <rect x="455" y="40" width="70" height="24" rx="4" fill="#76b900" opacity=".15"/><text x="490" y="56" text-anchor="middle" font-size="8">21 Tools</text>
+  <rect x="535" y="40" width="70" height="24" rx="4" fill="#76b900" opacity=".15"/><text x="570" y="56" text-anchor="middle" font-size="8">justfile</text>
+  <rect x="455" y="72" width="150" height="18" rx="4" fill="#e76f51" opacity=".15"/><text x="530" y="84" text-anchor="middle" font-size="8" fill="#e76f51">fix_cublas (Jetson)</text>
+  
+  <!-- Arrows -->
+  <line x1="140" y1="55" x2="180" y2="55" stroke="#76b900" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="320" y1="55" x2="360" y2="55" stroke="#76b900" stroke-width="2" marker-end="url(#arr)"/>
+  
+  <!-- Layer 4: Cosmos Repos -->
+  <rect x="20" y="140" width="660" height="60" rx="10" fill="#fff" stroke="#ddd"/>
+  <text x="350" y="160" text-anchor="middle" font-size="10" font-weight="600" fill="#666">Cosmos Ecosystem (auto-cloned by justfile)</text>
+  <text x="90" y="183" text-anchor="middle" font-size="9" fill="#444">cosmos-reason2</text>
+  <text x="220" y="183" text-anchor="middle" font-size="9" fill="#444">cosmos-predict2.5</text>
+  <text x="360" y="183" text-anchor="middle" font-size="9" fill="#444">cosmos-transfer2.5</text>
+  <text x="490" y="183" text-anchor="middle" font-size="9" fill="#444">cosmos-xenna</text>
+  <text x="600" y="183" text-anchor="middle" font-size="9" fill="#444">cosmos-cookbook</text>
+  
+  <!-- Layer 5: Hardware -->
+  <rect x="20" y="230" width="660" height="50" rx="10" fill="#264653" opacity=".05" stroke="#264653" stroke-width="1"/>
+  <text x="350" y="250" text-anchor="middle" font-size="10" font-weight="600" fill="#264653">Hardware</text>
+  <text x="130" y="268" text-anchor="middle" font-size="9" fill="#666">Jetson Thor (132GB)</text>
+  <text x="300" y="268" text-anchor="middle" font-size="9" fill="#666">Jetson Orin (32-64GB)</text>
+  <text x="470" y="268" text-anchor="middle" font-size="9" fill="#666">A100 / H100</text>
+  <text x="610" y="268" text-anchor="middle" font-size="9" fill="#666">RTX 4090</text>
+  
+  <!-- Vertical arrows -->
+  <line x1="350" y1="100" x2="350" y2="140" stroke="#76b900" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4"/>
+  <line x1="350" y1="200" x2="350" y2="230" stroke="#264653" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4"/>
+</svg>

@@ -1,0 +1,306 @@
+/* strands-cosmos — glassmorphic dark-first theme (snub-inspired) */
+/* v4: Dark-first, gradient accents, glass surfaces */
+
+/* ============================================= */
+/* Design Tokens                                 */
+/* ============================================= */
+@property --cosmos-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #76b900;
+}
+@property --cosmos-accent-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #43e8d8;
+}
+
+/* ============================================= */
+/* Dark mode (default) — true black + glass      */
+/* ============================================= */
+[data-md-color-scheme="slate"] {
+    --md-default-bg-color: #0b0f14;
+    --md-default-fg-color: #e7eef6;
+    --md-default-fg-color--light: #9aa9bb;
+    --md-default-fg-color--lighter: #5b6876;
+    --md-default-fg-color--lightest: #2a3442;
+    --md-primary-fg-color: #e7eef6;
+    --md-primary-bg-color: #0b0f14;
+    --md-accent-fg-color: #76b900;
+    --md-code-bg-color: rgba(255, 255, 255, 0.04);
+    --md-code-fg-color: #c8d8e8;
+    --md-code-hl-color: rgba(118, 185, 0, 0.1);
+    --md-typeset-a-color: #e7eef6;
+
+    --bg: #0b0f14;
+    --bg-soft: #0f151c;
+    --bg-elev: #141b24;
+    --fg: #e7eef6;
+    --fg-dim: #9aa9bb;
+    --fg-faint: #5b6876;
+    --fg-heading: #f0f4f8;
+    --border: #1e2732;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.06);
+    --glass-blur: blur(20px);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.08);
+    --scrollbar-hover: rgba(255, 255, 255, 0.15);
+    --code-fg: #c8d8e8;
+    --grad: linear-gradient(135deg, #76b900, #43e8d8);
+}
+
+/* ============================================= */
+/* Light mode                                    */
+/* ============================================= */
+[data-md-color-scheme="default"] {
+    --md-primary-fg-color: #0e1620;
+    --md-primary-bg-color: #f7f9fc;
+    --md-accent-fg-color: #76b900;
+    --md-default-bg-color: #f7f9fc;
+    --md-default-fg-color: #0e1620;
+    --md-default-fg-color--light: #4b5866;
+    --md-default-fg-color--lighter: #8a97a6;
+    --md-default-fg-color--lightest: #c8d0d8;
+    --md-typeset-a-color: #0e1620;
+    --md-code-bg-color: #f0f2f5;
+    --md-code-fg-color: #3a4550;
+
+    --bg: #f7f9fc;
+    --bg-soft: #ffffff;
+    --bg-elev: #ffffff;
+    --fg: #0e1620;
+    --fg-dim: #4b5866;
+    --fg-faint: #8a97a6;
+    --fg-heading: #0a0f14;
+    --border: #e3e8ee;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.06);
+    --glass-blur: blur(12px);
+    --scrollbar-thumb: rgba(0, 0, 0, 0.1);
+    --scrollbar-hover: rgba(0, 0, 0, 0.2);
+    --code-fg: #3a4550;
+    --grad: linear-gradient(135deg, #76b900, #43e8d8);
+}
+
+/* ============================================= */
+/* Base                                          */
+/* ============================================= */
+body {
+    background: var(--bg) !important;
+    color: var(--fg) !important;
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* ============================================= */
+/* Typography                                    */
+/* ============================================= */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--fg-heading) !important;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+.md-content { color: var(--fg) !important; }
+.md-typeset p { color: var(--fg) !important; line-height: 1.7; }
+.md-typeset li { color: var(--fg) !important; line-height: 1.7; }
+.md-typeset em { color: var(--md-accent-fg-color); font-style: normal; }
+
+/* ============================================= */
+/* Links — subtle underline, accent on hover     */
+/* ============================================= */
+.md-typeset a {
+    color: var(--md-typeset-a-color) !important;
+    text-decoration: underline;
+    text-decoration-color: rgba(128, 128, 128, 0.25);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s, color 0.2s;
+}
+.md-typeset a:hover {
+    text-decoration-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color) !important;
+}
+
+/* ============================================= */
+/* Header — glass blur                           */
+/* ============================================= */
+.md-header {
+    background: color-mix(in oklab, var(--bg) 70%, transparent) !important;
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: none !important;
+}
+.md-header__title { color: var(--fg-heading) !important; }
+.md-header .md-icon { color: var(--fg) !important; }
+.md-header__button { color: var(--fg) !important; }
+
+/* ============================================= */
+/* Sidebar navigation                            */
+/* ============================================= */
+.md-sidebar {
+    background: transparent !important;
+}
+.md-nav__link {
+    color: var(--fg-faint) !important;
+    font-size: 0.82rem;
+    transition: color 0.15s;
+}
+.md-nav__link:hover {
+    color: var(--fg-heading) !important;
+}
+.md-nav__link--active,
+.md-nav__item--active > .md-nav__link {
+    color: var(--md-accent-fg-color) !important;
+    font-weight: 600;
+}
+.md-nav__item--nested > .md-nav__link {
+    color: var(--fg-heading) !important;
+    font-weight: 600;
+}
+
+/* ============================================= */
+/* Code — glass surface                          */
+/* ============================================= */
+.md-typeset pre {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px;
+}
+.md-typeset code {
+    background: var(--bg-elev) !important;
+    color: var(--code-fg) !important;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+/* ============================================= */
+/* Admonitions — glass cards                     */
+/* ============================================= */
+.md-typeset .admonition,
+.md-typeset details {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px;
+    box-shadow: none !important;
+}
+
+/* ============================================= */
+/* Tables — glass surface                        */
+/* ============================================= */
+.md-typeset table:not([class]) {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.md-typeset table:not([class]) th {
+    background: var(--bg-elev);
+    color: var(--fg-heading);
+    font-weight: 600;
+}
+.md-typeset table:not([class]) td {
+    border-color: var(--glass-border);
+    color: var(--fg);
+}
+
+/* ============================================= */
+/* Content tabs                                  */
+/* ============================================= */
+.md-typeset .tabbed-set > input:checked + label {
+    border-color: var(--md-accent-fg-color);
+    color: var(--fg-heading);
+}
+.md-typeset .tabbed-set > label {
+    color: var(--fg-faint);
+}
+.md-typeset .tabbed-content {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 0 0 12px 12px;
+}
+
+/* ============================================= */
+/* Grid cards — glass elevation                  */
+/* ============================================= */
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ol > li {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s;
+}
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover,
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ol > li:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, #76b900 35%, rgba(255,255,255,0.06)) !important;
+}
+
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li,
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ol > li {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-radius: 16px;
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s;
+}
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ul > li:hover,
+[data-md-color-scheme="default"] .md-typeset .grid.cards > ol > li:hover {
+    transform: translateY(-4px);
+    border-color: rgba(118, 185, 0, 0.3) !important;
+}
+
+/* ============================================= */
+/* Mermaid diagrams                              */
+/* ============================================= */
+.mermaid {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    background: var(--glass-bg);
+}
+
+/* ============================================= */
+/* Scrollbar                                     */
+/* ============================================= */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
+
+/* ============================================= */
+/* Footer: hidden                                */
+/* ============================================= */
+.md-footer { display: none !important; }
+
+/* ============================================= */
+/* Mobile nav — dark mode fix                    */
+/* ============================================= */
+[data-md-color-scheme="slate"] .md-nav__title {
+    color: var(--fg-heading) !important;
+    background: var(--bg) !important;
+}
+[data-md-color-scheme="slate"] .md-sidebar--primary {
+    background: var(--bg) !important;
+}
+
+/* ============================================= */
+/* Search                                        */
+/* ============================================= */
+.md-search__input {
+    background: var(--bg-elev) !important;
+    color: var(--fg) !important;
+    border-radius: 8px;
+}
+
+/* ============================================= */
+/* Accent highlight for badges / tags            */
+/* ============================================= */
+.md-typeset .md-tag {
+    background: color-mix(in oklab, #76b900 15%, var(--bg-elev));
+    color: #76b900;
+    border: 1px solid color-mix(in oklab, #76b900 30%, transparent);
+}

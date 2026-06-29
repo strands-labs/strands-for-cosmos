@@ -1,0 +1,2086 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="NVIDIA Cosmos toolkit for Strands Agents - Cosmos-Reason2 VLM + Cosmos 3 omnimodal world models (reasoning, video/audio/action generation), edge deployment, and evaluation.">
+      
+      
+      
+        <link rel="canonical" href="https://cagataycali.github.io/strands-cosmos/changelog/">
+      
+      
+        <link rel="prev" href="../api-reference/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../strands-cosmos-logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Changelog - Strands Cosmos</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css?v=3">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Strands Cosmos" class="md-header__button md-logo" aria-label="Strands Cosmos" data-md-component="logo">
+      
+  <img src="../strands-cosmos-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Strands Cosmos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/cagataycali/strands-cosmos" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cagataycali/strands-cosmos
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Strands Cosmos" class="md-nav__button md-logo" aria-label="Strands Cosmos" data-md-component="logo">
+      
+  <img src="../strands-cosmos-logo.svg" alt="logo">
+
+    </a>
+    Strands Cosmos
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/cagataycali/strands-cosmos" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    cagataycali/strands-cosmos
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/cosmos3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cosmos 3 (Omnimodal)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/cosmos3-training/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cosmos 3 Training (SFT)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/video-understanding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Video Understanding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/image-reasoning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/chain-of-thought/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chain-of-Thought
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/tool-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tool Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/jetson/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jetson Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/basic-text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Text
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/video-caption/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Video Caption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/driving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Driving Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/embodied/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Embodied Reasoning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/tool-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tool Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unreleased
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#044-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.4] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.4] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#043-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.3] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.3] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-native-video-to-video-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added — native video-to-video transfer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#042-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.2] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.2] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#041-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.1] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.1] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#040-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.0] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.0] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-cosmos-3-post-training-sft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added — Cosmos 3 post-training (SFT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#032-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.3.2] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.3.2] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#031-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.3.1] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.3.1] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3.0 - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0 - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-cosmos-3-omnimodal-world-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added — Cosmos 3 omnimodal world models 🌌
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verified-single-nvidia-l40s-46-gb-no-nim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified (single NVIDIA L40S, 46 GB, no NIM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2026-05-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2.0 - 2026-05-08
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0 - 2026-05-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#012-2026-03-xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.2 - 2026-03-xx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.2 - 2026-03-xx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#011-2026-03-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.1 - 2026-03-09
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.1 - 2026-03-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unreleased
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#044-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.4] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.4] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#043-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.3] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.3] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-native-video-to-video-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added — native video-to-video transfer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#042-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.2] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.2] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#041-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.1] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.1] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#040-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.4.0] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.4.0] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-cosmos-3-post-training-sft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added — Cosmos 3 post-training (SFT)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#032-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.3.2] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.3.2] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#031-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.3.1] - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.3.1] - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-2026-06-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3.0 - 2026-06-04
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0 - 2026-06-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added-cosmos-3-omnimodal-world-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added — Cosmos 3 omnimodal world models 🌌
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verified-single-nvidia-l40s-46-gb-no-nim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified (single NVIDIA L40S, 46 GB, no NIM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2026-05-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2.0 - 2026-05-08
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0 - 2026-05-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#012-2026-03-xx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.2 - 2026-03-xx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.2 - 2026-03-xx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#011-2026-03-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.1 - 2026-03-09
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.1 - 2026-03-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<p>All notable changes to <strong>strands-cosmos</strong> are documented here.</p>
+<p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>,
+and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="unreleased"><a href="https://github.com/cagataycali/strands-cosmos/compare/v0.3.0...HEAD">Unreleased</a><a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
+<h2 id="044-2026-06-04">[0.4.4] - 2026-06-04<a class="headerlink" href="#044-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>cosmos3_video2video</code> now exposes the conditioning controls</strong> that actually
+  drive how much the prompt transforms the video:
+  <code>condition_frames</code> (latent frame indexes kept clean) and <code>condition_keep</code>
+  ("first"/"last"). New restyle-friendly defaults (<code>condition_frames="0"</code>,
+  <code>condition_keep="last"</code>, <code>guidance=8</code>, <code>steps=35</code>) so a real transform
+  (day→night, recolor, change the scene) is the easy path. With the old
+  defaults the prompt barely changed the video (it reconstructed the input).</li>
+<li><code>c3-v2v</code> justfile recipe gains matching <code>cond_frames</code> / <code>cond_keep</code> params.</li>
+<li>Added <code>demo/cosmos3_v2v/</code> showcase (recolor / rain / crowd / night) + tuning guide.</li>
+</ul>
+<h2 id="043-2026-06-04">[0.4.3] - 2026-06-04<a class="headerlink" href="#043-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="added-native-video-to-video-transfer">Added — native video-to-video transfer<a class="headerlink" href="#added-native-video-to-video-transfer" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>cosmos3_video2video</code> tool</strong> + <code>c3-omni-docker</code> / <code>c3-v2v</code> justfile recipes:
+  structure-preserving video transfer (e.g. day→night, recolor buildings,
+  restyle) by re-rendering an input video with a new prompt via the Cosmos 3
+  <strong>vLLM-Omni</strong> server (<code>/v1/videos/sync</code>, <code>input_reference</code>).</li>
+<li>vLLM-Omni runs from the official <code>vllm/vllm-omni:cosmos3</code> Docker image (the
+  only build with all modalities incl. video2video). <code>c3-omni-docker</code> launches
+  it with <code>--gpus all</code> and the shared HF cache.</li>
+<li>Validated live: input construction-site video transformed to night / recolor /
+  rain (832×480, structure preserved, ~12s/clip).</li>
+</ul>
+<h2 id="042-2026-06-04">[0.4.2] - 2026-06-04<a class="headerlink" href="#042-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>All justfile-backed tools failed on <code>pip install</code></strong>: the <code>justfile</code> (which
+  every <code>cosmos_*</code> / <code>cosmos3_*</code> tool shells out to) was never packaged, so
+  <code>_find_justfile()</code> returned <code>None</code> in a pip install and tools errored with
+  exit 127. The justfile is now bundled into the wheel/sdist at
+  <code>strands_cosmos/justfile</code> (copied from the repo root at build time) and the
+  lookup resolves it. Verified from a clean wheel install. Added a regression test.</li>
+</ul>
+<h2 id="041-2026-06-04">[0.4.1] - 2026-06-04<a class="headerlink" href="#041-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>PyPI publish failure (0.3.2 / 0.4.0 never reached PyPI)</strong>: the <code>cosmos3-gen</code>
+  and <code>all</code> extras declared a direct-URL dependency
+  (<code>diffusers @ git+https://...</code>), which PyPI rejects on upload. The extras now
+  require plain <code>diffusers&gt;=0.36</code>; the Cosmos3OmniPipeline dev build is installed
+  separately via <code>just c3-setup-gen</code> or
+  <code>pip install -U "git+https://github.com/huggingface/diffusers.git"</code>.</li>
+<li>Release workflow now fails fast if built metadata contains any direct-URL
+  dependency (guard step before PyPI publish).</li>
+</ul>
+<h2 id="040-2026-06-04">[0.4.0] - 2026-06-04<a class="headerlink" href="#040-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="added-cosmos-3-post-training-sft">Added — Cosmos 3 post-training (SFT)<a class="headerlink" href="#added-cosmos-3-post-training-sft" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>7 <code>cosmos3_train_*</code> tools</strong> + <strong><code>c3-train-*</code> justfile recipes</strong> wrapping the
+  NVIDIA Cosmos Framework supervised fine-tuning stack:
+  <code>cosmos3_train_recipes</code>, <code>cosmos3_train_show</code>, <code>cosmos3_train_convert</code>,
+  <code>cosmos3_train_convert_vlm</code>, <code>cosmos3_train_prep_dataset</code>, <code>cosmos3_train</code>,
+  <code>cosmos3_train_export</code>.</li>
+<li>Full 4-step flow: checkpoint → DCP convert, dataset prep, SFT run (paired
+  launch shell / <code>torchrun -m cosmos_framework.scripts.train</code>), and DCP → HF
+  safetensors export. Recipes: vision_sft_nano/super, llava_ov, videophy2_nano.</li>
+<li>New <strong><a href="../guide/cosmos3-training/">Cosmos 3 Training guide</a></strong> +
+  <code>examples/10_cosmos3_finetune.py</code>; <code>c3-doctor</code> reports the training env.</li>
+<li>Validated locally (no 8× H100 needed): <code>c3-train-recipes</code> lists recipes and
+  <code>c3-train-show</code> resolves/validates the full SFT config via <code>train.py --dryrun</code>.</li>
+</ul>
+<h2 id="032-2026-06-04">[0.3.2] - 2026-06-04<a class="headerlink" href="#032-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>cosmos3-gen</code> optional extra</strong> — <code>pip install "strands-cosmos[cosmos3-gen]"</code>
+  installs the Cosmos 3 generator backend in one step (Diffusers dev build,
+  <code>cosmos_guardrail</code>, <code>soundfile</code>, imageio), making text/image -&gt; image/video/sound
+  generation frictionless without the justfile.</li>
+</ul>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>just c3-setup-gen</code> now also installs <code>soundfile</code> (required for the
+  video-with-sound audio mux path).</li>
+</ul>
+<h2 id="031-2026-06-04">[0.3.1] - 2026-06-04<a class="headerlink" href="#031-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Video decoding on fresh installs</strong>: <code>transformers</code> 5.x decodes video via
+  <code>torchcodec</code> and silently falls back to <code>torchvision</code>, whose <code>io.read_video</code>
+  was removed in <code>torchvision&gt;=0.27</code> (<code>AttributeError</code> when captioning a video).
+  <code>torchcodec</code> is now a core dependency so video works out of the box.</li>
+</ul>
+<h2 id="030-2026-06-04"><a href="https://github.com/cagataycali/strands-cosmos/compare/v0.2.0...v0.3.0">0.3.0</a> - 2026-06-04<a class="headerlink" href="#030-2026-06-04" title="Permanent link">&para;</a></h2>
+<h3 id="added-cosmos-3-omnimodal-world-models">Added — Cosmos 3 omnimodal world models 🌌<a class="headerlink" href="#added-cosmos-3-omnimodal-world-models" title="Permanent link">&para;</a></h3>
+<p>First-class support for NVIDIA's newest <a href="https://research.nvidia.com/labs/cosmos-lab/cosmos3/">Cosmos 3</a>
+omnimodal model family — reasoning <strong>and</strong> generation across text, image, video, audio,
+and action. Runs on local compute (vLLM / Diffusers / Cosmos Framework).</p>
+<ul>
+<li><strong>Model providers</strong> (implement <code>strands.models.Model</code>):</li>
+<li><code>Cosmos3ReasonerModel</code> — omnimodal reasoning (text + vision → text) via a local
+    vLLM server (<code>Cosmos3ReasonerForConditionalGeneration</code>). Captioning, temporal
+    localization, embodied next-action, 2D grounding, physical plausibility, situation
+    understanding, action chain-of-thought. Supports explicit <code>&lt;think&gt;</code> reasoning.</li>
+<li><code>Cosmos3GeneratorModel</code> — generation (text/image → image/video/<strong>sound</strong>) in-process
+    via HuggingFace Diffusers <code>Cosmos3OmniPipeline</code>. Generates <strong>and muxes stereo AAC
+    audio @ 48kHz</strong> for video-with-sound.</li>
+<li><strong>16 <code>cosmos3_*</code> tools</strong> (thin justfile wrappers):</li>
+<li>Reasoner: <code>cosmos3_reason</code>, <code>cosmos3_caption</code>, <code>cosmos3_temporal</code>, <code>cosmos3_embodied</code>,
+    <code>cosmos3_ground</code>, <code>cosmos3_plausibility</code>, <code>cosmos3_situation</code>, <code>cosmos3_action_cot</code></li>
+<li>Generator: <code>cosmos3_text2image</code>, <code>cosmos3_text2video</code>, <code>cosmos3_image2video</code>,
+    <code>cosmos3_text2video_sound</code></li>
+<li>Action / world-model: <code>cosmos3_forward_dynamics</code>, <code>cosmos3_inverse_dynamics</code>,
+    <code>cosmos3_policy</code></li>
+<li>Servers: <code>cosmos3_serve</code></li>
+<li><strong>13 <code>c3-*</code> justfile recipes</strong>: <code>c3-doctor</code>, <code>c3-setup-{reason,gen,omni,framework}</code>,
+  <code>c3-serve-{reason,omni,status,stop-reason,stop-omni}</code>, <code>c3-reason</code>, <code>c3-gen</code>, <code>c3-action</code>.</li>
+<li><strong><code>cosmos3</code> optional extra</strong> (<code>pip install "strands-cosmos[cosmos3]"</code>) for the reasoner
+  OpenAI client.</li>
+<li><strong>Examples</strong>: <code>06_cosmos3_reason.py</code>, <code>07_cosmos3_generate.py</code>, <code>08_cosmos3_action.py</code>,
+  <code>09_cosmos3_showcase.py</code> (reason → generate showcase).</li>
+<li><strong>Showcase</strong>: <code>demo/cosmos3_showcase/</code> — Cosmos 3 reasons about a real video, then
+  generates similar videos (incl. one with synchronized audio) from its own description.</li>
+<li><strong>Docs</strong>: new <a href="../guide/cosmos3/">Cosmos 3 Guide</a>; README, index, quickstart,
+  installation, architecture, API reference, and capability guides all lead with Cosmos 3.</li>
+</ul>
+<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>README and docs now present <strong>4 model providers + 37 tools</strong> and lead with Cosmos 3
+  as the flagship; Cosmos-Reason2 repositioned as the lightweight edge/Jetson VLM.</li>
+<li><code>c3-doctor</code> recognizes cached Hugging Face tokens (not just <code>HF_TOKEN</code>/env).</li>
+<li><code>c3-serve-status</code> (and <code>cosmos3_serve</code>) detect directly-launched servers via an HTTP
+  <code>/health</code> probe, not only the PID file.</li>
+</ul>
+<h3 id="verified-single-nvidia-l40s-46-gb-no-nim">Verified (single NVIDIA L40S, 46 GB, no NIM)<a class="headerlink" href="#verified-single-nvidia-l40s-46-gb-no-nim" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Reasoner: caption 6.6s, plus temporal / embodied / plausibility / situation.</li>
+<li>Generator: text→image, text→video, image→video, and text→video <strong>+ sound</strong>
+  (H264 + AAC stereo 48kHz).</li>
+<li>Action: forward-dynamics rollout (832×480, 61 frames) via the Cosmos Framework.</li>
+</ul>
+<h3 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>CUDA pairing</strong>: match the torch backend to your driver — CUDA 13 → <code>cu130</code> +
+  <code>vllm==0.21.0</code>; CUDA 12.8 → <code>cu128</code> + <code>vllm==0.19.1</code>. <code>just c3-doctor</code> reports it.</li>
+<li><strong>Single-GPU</strong>: the reasoner (vLLM) and generator (Diffusers) each load a 16B model
+  and will not fit on one ~46 GB GPU simultaneously — stop one before running the other.</li>
+<li>The Cosmos 3 reasoner caps <code>--max-model-len 32768</code> to avoid KV-cache OOM (the model's
+  262K default exceeds a single 46 GB GPU).</li>
+<li>Removed the internal <code>COSMOS3_INTEGRATION.md</code> planning doc (superseded by shipped code + docs).</li>
+</ul>
+<h2 id="020-2026-05-08"><a href="https://github.com/cagataycali/strands-cosmos/compare/v0.1.2...v0.2.0">0.2.0</a> - 2026-05-08<a class="headerlink" href="#020-2026-05-08" title="Permanent link">&para;</a></h2>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>21 tools covering the full Cosmos pipeline (Reason2 inference, Predict2.5,
+  Transfer2.5, model lifecycle, training, distillation, Xenna curation, evaluation,
+  I/O, system diagnostics) — all thin wrappers over a 50+ recipe <code>justfile</code>.</li>
+<li>MkDocs Material documentation site with examples, guides, and API reference.</li>
+<li>Notebooks and runnable examples (01–05).</li>
+<li><code>AGENTS.md</code> development contract.</li>
+</ul>
+<h2 id="012-2026-03-xx"><a href="https://github.com/cagataycali/strands-cosmos/compare/v0.1.1...v0.1.2">0.1.2</a> - 2026-03-xx<a class="headerlink" href="#012-2026-03-xx" title="Permanent link">&para;</a></h2>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>asyncio event-loop thread-safety in <code>cosmos_vision_invoke</code>.</li>
+</ul>
+<h2 id="011-2026-03-09"><a href="https://github.com/cagataycali/strands-cosmos/releases/tag/v0.1.1">0.1.1</a> - 2026-03-09<a class="headerlink" href="#011-2026-03-09" title="Permanent link">&para;</a></h2>
+<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Initial public release: <code>CosmosVisionModel</code> (video + image + text) and <code>CosmosModel</code>
+  (text-only) Strands model providers for Cosmos-Reason2.</li>
+<li>Jetson CUBLAS compatibility fix (<code>strands-cosmos-fix-cublas</code>).</li>
+<li>Dashcam safety-analysis demo.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.indexes", "toc.follow", "content.code.copy", "content.code.annotate", "content.tabs.link", "navigation.top", "navigation.tracking", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
