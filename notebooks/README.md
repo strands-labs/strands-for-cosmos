@@ -46,6 +46,7 @@ flowchart LR
 | 05 | [Tool Usage](05_tool_usage.ipynb) | Cosmos as composable tools (many need **no GPU**) | partial |
 | 06 | [Cosmos 3: Understand](06_cosmos3_understand.ipynb) | The newest reasoner via a vLLM server | GPU + server |
 | 07 | [Cosmos 3: Generate](07_cosmos3_generate.ipynb) | Create image / video / video+sound | big GPU |
+| 12 | [Multi-Turn Visual Chat](12_multiturn_visual_chat.ipynb) | Hold a conversation about one image; the agent remembers earlier turns | GPU* |
 
 \* *No GPU? You can still read and run every notebook — the compute cells detect the hardware
 and skip with a friendly message instead of crashing.*
@@ -81,6 +82,7 @@ Every notebook has a matching runnable script in [`../examples`](../examples). T
 | 01–05 | `examples/01`–`05_*.py` (same numbers) |
 | 06 | `examples/06_cosmos3_reason.py` |
 | 07 | `examples/07_cosmos3_generate.py` |
+| 12 | `examples/12_multiturn_visual_chat.py` |
 | (advanced) | `examples/08_cosmos3_action.py`, `09_cosmos3_showcase.py`, `10_cosmos3_finetune.py` |
 
 > **A note on file access:** Cosmos tools confine reads/writes to a workspace allow-list for
