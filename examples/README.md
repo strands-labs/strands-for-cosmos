@@ -22,6 +22,21 @@ Copy-paste-ready scripts. Each one is the runnable distillation of a
 | `08_cosmos3_action.py` | [07](../notebooks/07_cosmos3_generate.ipynb) | World-model: forward dynamics |
 | `09_cosmos3_showcase.py` | [06](../notebooks/06_cosmos3_understand.ipynb) + [07](../notebooks/07_cosmos3_generate.ipynb) | Full loop: reason → generate |
 | `10_cosmos3_finetune.py` | *(advanced)* | SFT / fine-tuning via Cosmos Framework |
+| `11_media_prep.py` | [05](../notebooks/05_tool_usage.ipynb) | Inspect + stage media with the no-GPU tools (sysinfo / probe / frames / image) |
+
+---
+
+## Runs anywhere (no GPU, no model download)
+
+`11_media_prep.py` uses only the four Cosmos tools that need neither a GPU nor
+model weights - just `ffmpeg`/`ffprobe` on `PATH`. It is the first mile of a
+vision pipeline: check the host, probe a clip, sample frames, read an image, and
+fail loudly if an input is missing. Good for CI, edge triage, or validating media
+before you spend GPU time on a reasoner or generator.
+
+```bash
+python examples/11_media_prep.py
+```
 
 ---
 
