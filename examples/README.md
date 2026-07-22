@@ -22,6 +22,7 @@ Copy-paste-ready scripts. Each one is the runnable distillation of a
 | `08_cosmos3_action.py` | [07](../notebooks/07_cosmos3_generate.ipynb) | World-model: forward dynamics |
 | `09_cosmos3_showcase.py` | [06](../notebooks/06_cosmos3_understand.ipynb) + [07](../notebooks/07_cosmos3_generate.ipynb) | Full loop: reason → generate |
 | `10_cosmos3_finetune.py` | *(advanced)* | SFT / fine-tuning via Cosmos Framework |
+| `12_multiturn_visual_chat.py` | [04](../notebooks/04_embodied_reasoning.ipynb) | Multi-turn conversation about one image; context carries across turns |
 
 ---
 
