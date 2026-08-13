@@ -61,7 +61,7 @@ dependencies = [
 
 [project.optional-dependencies]
 vllm = [
-    "vllm>=0.22.0,<1.0.0",
+    "vllm>=0.22.0",
     "strands-agents[openai]",
 ]
 # Cosmos 3 reasoner client (talks to a local vLLM server). The heavier
