@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" font-family="Inter, system-ui, sans-serif">
+  <rect width="600" height="500" fill="#fafafa" rx="12"/>
+  <text x="300" y="35" text-anchor="middle" font-size="16" font-weight="700">Tool Test Results · Jetson AGX Thor</text>
+  
+  <!-- Success tools -->
+  <g transform="translate(20,55)">
+    <rect width="560" height="24" rx="4" fill="#76b900" opacity=".1"/>
+    <circle cx="16" cy="12" r="6" fill="#76b900"/><text x="30" y="16" font-size="11" font-weight="500">cosmos_sysinfo</text><text x="500" y="16" font-size="10" fill="#76b900" font-weight="600">✅ PASS</text>
+  </g>
+  <g transform="translate(20,83)">
+    <rect width="560" height="24" rx="4" fill="#76b900" opacity=".1"/>
+    <circle cx="16" cy="12" r="6" fill="#76b900"/><text x="30" y="16" font-size="11" font-weight="500">video_probe</text><text x="500" y="16" font-size="10" fill="#76b900" font-weight="600">✅ PASS</text>
+  </g>
+  <g transform="translate(20,111)">
+    <rect width="560" height="24" rx="4" fill="#76b900" opacity=".1"/>
+    <circle cx="16" cy="12" r="6" fill="#76b900"/><text x="30" y="16" font-size="11" font-weight="500">video_extract_frames</text><text x="500" y="16" font-size="10" fill="#76b900" font-weight="600">✅ PASS</text>
+  </g>
+  <g transform="translate(20,139)">
+    <rect width="560" height="24" rx="4" fill="#76b900" opacity=".1"/>
+    <circle cx="16" cy="12" r="6" fill="#76b900"/><text x="30" y="16" font-size="11" font-weight="500">image_read</text><text x="500" y="16" font-size="10" fill="#76b900" font-weight="600">✅ PASS</text>
+  </g>
+  <g transform="translate(20,167)">
+    <rect width="560" height="24" rx="4" fill="#76b900" opacity=".1"/>
+    <circle cx="16" cy="12" r="6" fill="#76b900"/><text x="30" y="16" font-size="11" font-weight="500">cosmos_reason_hf (video, 8.7s)</text><text x="500" y="16" font-size="10" fill="#76b900" font-weight="600">✅ PASS</text>
+  </g>
+  <g transform="translate(20,195)">
+    <rect width="560" height="24" rx="4" fill="#76b900" opacity=".1"/>
+    <circle cx="16" cy="12" r="6" fill="#76b900"/><text x="30" y="16" font-size="11" font-weight="500">CosmosVisionModel + Agent (2.2s)</text><text x="500" y="16" font-size="10" fill="#76b900" font-weight="600">✅ PASS</text>
+  </g>
+  
+  <!-- Callable tools -->
+  <text x="20" y="240" font-size="12" font-weight="600" fill="#666">Callable (needs external service)</text>
+  <g transform="translate(20,250)">
+    <rect width="560" height="24" rx="4" fill="#f5a623" opacity=".08"/>
+    <circle cx="16" cy="12" r="6" fill="#f5a623"/><text x="30" y="16" font-size="11">cosmos_inference / cosmos_serve</text><text x="480" y="16" font-size="10" fill="#f5a623">⚠️ needs TRT</text>
+  </g>
+  <g transform="translate(20,278)">
+    <rect width="560" height="24" rx="4" fill="#f5a623" opacity=".08"/>
+    <circle cx="16" cy="12" r="6" fill="#f5a623"/><text x="30" y="16" font-size="11">cosmos_quantize / export_onnx / build_engine</text><text x="480" y="16" font-size="10" fill="#f5a623">⚠️ needs TRT</text>
+  </g>
+  <g transform="translate(20,306)">
+    <rect width="560" height="24" rx="4" fill="#f5a623" opacity=".08"/>
+    <circle cx="16" cy="12" r="6" fill="#f5a623"/><text x="30" y="16" font-size="11">cosmos_predict_generate / transfer_generate</text><text x="480" y="16" font-size="10" fill="#f5a623">⚠️ needs repo</text>
+  </g>
+  <g transform="translate(20,334)">
+    <rect width="560" height="24" rx="4" fill="#f5a623" opacity=".08"/>
+    <circle cx="16" cy="12" r="6" fill="#f5a623"/><text x="30" y="16" font-size="11">cosmos_post_train / distill / curate / evaluate</text><text x="480" y="16" font-size="10" fill="#f5a623">⚠️ needs config</text>
+  </g>
+  <g transform="translate(20,362)">
+    <rect width="560" height="24" rx="4" fill="#f5a623" opacity=".08"/>
+    <circle cx="16" cy="12" r="6" fill="#f5a623"/><text x="30" y="16" font-size="11">rtp_capture_frame / nats_publish</text><text x="480" y="16" font-size="10" fill="#f5a623">⚠️ needs service</text>
+  </g>
+  
+  <!-- Summary bar -->
+  <rect x="20" y="410" width="560" height="50" rx="8" fill="#76b900" opacity=".1" stroke="#76b900"/>
+  <text x="300" y="432" text-anchor="middle" font-size="13" font-weight="600" fill="#76b900">6 end-to-end ✅ · 15 callable ⚠️ · 0 failed ❌</text>
+  <text x="300" y="450" text-anchor="middle" font-size="10" fill="#666">Platform: Jetson AGX Thor · NVIDIA Thor GPU · CUDA 13.0 · torch 2.10.0</text>
+</svg>
