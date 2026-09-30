@@ -111,13 +111,13 @@ verified on Jetson AGX Thor with Chain-of-Thought reasoning.
 
 - **🚗 Driving Analysis with Chain-of-Thought**
 
-    <img src="/strands-cosmos/assets/videos/03_driving_analysis.gif" alt="Driving analysis with CoT reasoning" width="100%">
+    <img src="assets/videos/03_driving_analysis.gif" alt="Driving analysis with CoT reasoning" width="100%">
 
     → [Full example + code](examples/driving.md)
 
 - **🤖 Robot Embodied Reasoning**
 
-    <img src="/strands-cosmos/assets/videos/04_embodied_reasoning.gif" alt="Robot embodied reasoning" width="100%">
+    <img src="assets/videos/04_embodied_reasoning.gif" alt="Robot embodied reasoning" width="100%">
 
     → [Full example + code](examples/embodied.md)
 
@@ -127,13 +127,13 @@ verified on Jetson AGX Thor with Chain-of-Thought reasoning.
 
 - **🎬 Video Captioning**
 
-    <img src="/strands-cosmos/assets/videos/02_video_caption.gif" alt="Video captioning" width="100%">
+    <img src="assets/videos/02_video_caption.gif" alt="Video captioning" width="100%">
 
     → [Full example + code](examples/video-caption.md)
 
 - **⚛️ Physics Reasoning (Text-Only)**
 
-    <img src="/strands-cosmos/assets/videos/01_basic_text.gif" alt="Physics reasoning" width="100%">
+    <img src="assets/videos/01_basic_text.gif" alt="Physics reasoning" width="100%">
 
     → [Full example + code](examples/basic-text.md)
 
@@ -141,10 +141,10 @@ verified on Jetson AGX Thor with Chain-of-Thought reasoning.
 
 ```mermaid
 graph LR
-    A["🗣️ Strands Agent"] --> RCosmos 3
+    A["🗣️ Strands Agent"] --> R["🌌 Cosmos 3"]
     R -->|Reasoner| U["📹 Understand: caption · temporal · embodied · grounding"]
     R -->|Generator| G["🎬 Generate: image · video · 🔊 audio · 🤖 action"]
-    A --> VCosmos-Reason2 VLM
+    A --> V["⚡ Cosmos-Reason2 VLM"]
     V -->|Edge| E["🚗 Driving · Robot planning · CoT"]
 ```
 

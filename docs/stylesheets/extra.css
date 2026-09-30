@@ -120,8 +120,10 @@
 .sr-wordmark svg { display: block; height: 1.15rem; width: auto; fill: var(--sr-accent); }
 .md-nav__button.md-logo .sr-wordmark svg { height: 0.9rem; }
 .sr-brand-project, .sr-project { font-family: var(--sr-mono); font-size: 0.85rem; font-weight: 600; color: var(--sr-fg); margin-left: 0.45rem; }
-.sr-nav { display: none; flex: 1; justify-content: center; gap: 1.8rem; list-style: none; margin: 0; padding: 0; }
-.sr-nav__link { font-family: var(--sr-mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.05em; color: var(--sr-fg); }
+/* Seven sections share the row with the brand, search, GitHub, Discord and the palette toggle: one word each (mkdocs.yml nav), never wrapped, and the list gives way before the buttons do. */
+.sr-nav { display: none; flex: 1 1 auto; min-width: 0; overflow: hidden; justify-content: center; gap: 1.3rem; list-style: none; margin: 0; padding: 0 0.9rem; }
+.sr-nav li { flex: 0 0 auto; }
+.sr-nav__link { font-family: var(--sr-mono); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.03em; color: var(--sr-fg); white-space: nowrap; }
 .sr-nav__link:hover, .sr-nav__link--active { color: var(--sr-accent); }
 .md-search__form { height: 1.6rem; background-color: transparent; border: 1px solid var(--md-default-fg-color--lightest); border-radius: 999px; }
 [data-md-toggle="search"]:checked ~ .md-header .md-search__form { border-radius: 0.6rem 0.6rem 0 0; background: var(--md-default-bg-color); }
@@ -136,6 +138,11 @@
   .sr-nav { display: flex; }
   .md-search__inner { width: 8rem; }
   .sr-menu { display: none; }
+}
+/* The narrow desktop band: the same row, tighter, so the list never touches the brand or the search box. */
+@media (min-width: 76.25em) and (max-width: 86em) {
+  .sr-nav { gap: 0.9rem; padding: 0 0.6rem; }
+  .md-search__inner { width: 6rem; }
 }
 @media (max-width: 76.234375em) { .sr-brand-project { display: none; } }
 @media (min-width: 60em) and (max-width: 76.234375em) { .md-search { margin-left: auto; } }

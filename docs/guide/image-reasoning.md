@@ -11,13 +11,13 @@ Cosmos-Reason2 processes single images for object recognition, spatial reasoning
 
 ## See It In Action
 
-<img src="/strands-cosmos/assets/videos/04_embodied_reasoning.gif" alt="Embodied robot reasoning from image" width="100%">
+<img src="../../assets/videos/04_embodied_reasoning.gif" alt="Embodied robot reasoning from image" width="100%">
 
 <details>
-<summary>📺 Can't see the animation? <a href="/strands-cosmos/assets/videos/04_embodied_reasoning.mp4">Download MP4</a></summary>
+<summary>📺 Can't see the animation? <a href="../../assets/videos/04_embodied_reasoning.mp4">Download MP4</a></summary>
 
 <video controls width="100%" muted>
-  <source src="/strands-cosmos/assets/videos/04_embodied_reasoning.mp4" type="video/mp4">
+  <source src="../../assets/videos/04_embodied_reasoning.mp4" type="video/mp4">
 </video>
 
 </details>

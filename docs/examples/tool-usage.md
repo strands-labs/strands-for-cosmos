@@ -6,13 +6,13 @@ Use Cosmos as a callable **tool** inside any Strands agent (Bedrock, Anthropic, 
 
 ## Terminal Recording
 
-<img src="/strands-cosmos/assets/videos/05_tool_usage.gif" alt="Tool usage demo" width="100%">
+<img src="../../assets/videos/05_tool_usage.gif" alt="Tool usage demo" width="100%">
 
 <details>
-<summary>📺 Can't see the animation? <a href="/strands-cosmos/assets/videos/05_tool_usage.mp4">Download MP4</a></summary>
+<summary>📺 Can't see the animation? <a href="../../assets/videos/05_tool_usage.mp4">Download MP4</a></summary>
 
 <video controls width="100%" muted>
-  <source src="/strands-cosmos/assets/videos/05_tool_usage.mp4" type="video/mp4">
+  <source src="../../assets/videos/05_tool_usage.mp4" type="video/mp4">
 </video>
 
 </details>

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Docs: the home page mermaid diagram (`--> RCosmos 3`) was a parse error; mermaid left its "Syntax error" box in `<body>` and instant navigation carried it onto every other page. Fixed the fence and added a grader (`tests/test_docs_health.py`) that checks every mermaid fence.
+- Docs: 54 raw-HTML asset paths were pinned to `/strands-cosmos/…`; the site lives at `/strands-for-cosmos/`, so every example GIF/MP4 on the home page and 11 detail pages 404'd. Paths are relative to the page URL now, and the grader refuses site-root-absolute paths.
+- Docs: the one-row header wrapped "Getting Started" and "API Reference" onto two lines and pushed the GitHub/Discord buttons off at 1280px. Top-level sections are one word each (Start, Reference with API Reference + Changelog under it), never wrap, and the row is verified at 1220 to 1680px.
+
 ## [0.5.0] - 2026-06-05
 
 ### Added — full upstream Cosmos 3 parity (generator prompt-upsampling, batch captioning, VideoPhy2 eval, sound modes)

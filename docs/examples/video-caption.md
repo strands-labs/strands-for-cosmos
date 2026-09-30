@@ -6,13 +6,13 @@ Detailed temporal-spatial descriptions of video content using Cosmos-Reason2.
 
 ## Terminal Recording
 
-<img src="/strands-cosmos/assets/videos/02_video_caption.gif" alt="Video captioning demo" width="100%">
+<img src="../../assets/videos/02_video_caption.gif" alt="Video captioning demo" width="100%">
 
 <details>
-<summary>📺 Can't see the animation? <a href="/strands-cosmos/assets/videos/02_video_caption.mp4">Download MP4</a></summary>
+<summary>📺 Can't see the animation? <a href="../../assets/videos/02_video_caption.mp4">Download MP4</a></summary>
 
 <video controls width="100%" muted>
-  <source src="/strands-cosmos/assets/videos/02_video_caption.mp4" type="video/mp4">
+  <source src="../../assets/videos/02_video_caption.mp4" type="video/mp4">
 </video>
 
 </details>
