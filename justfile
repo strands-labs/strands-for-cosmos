@@ -824,6 +824,81 @@ c3-setup-gen:
       torch torchvision transformers
     echo "✅ Generator env ready: {{C3_GEN_VENV}}"
 
+# ── Cosmos3-Edge (4B): one venv, no vLLM, no Cosmos Framework ──────────────
+# Edge loads with RELEASED transformers>=5.19 (Cosmos3EdgeForConditionalGeneration)
+# and diffusers>=0.40 (Cosmos3OmniPipeline + CosmosActionCondition). Measured on a
+# Jetson AGX Thor (arm64, sm_110, cu130): reasoner 4.6 GiB / generator 7.6 GiB
+# weights, see docs/guide/cosmos3-edge.md.
+C3_EDGE_VENV       := env_var_or_default("C3_EDGE_VENV", ".venv-c3-edge")
+C3_EDGE_MODEL      := env_var_or_default("C3_EDGE_MODEL", "nvidia/Cosmos3-Edge")
+
+# Setup: Cosmos3-Edge venv (reasoner + generator + action, in-process)
+c3-setup-edge python="3.12":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v uv >/dev/null || { echo "install uv first: https://docs.astral.sh/uv/"; exit 1; }
+    [ -d "{{C3_EDGE_VENV}}" ] || uv venv --python {{python}} --seed "{{C3_EDGE_VENV}}"
+    source "{{C3_EDGE_VENV}}/bin/activate"
+    # torch first with the CUDA backend that matches the driver (Thor/JetPack 7 = cu130).
+    uv pip install --torch-backend={{C3_TORCH_BACKEND}} torch torchvision torchcodec
+    uv pip install "transformers>=5.19" "diffusers>=0.40" accelerate av pillow huggingface_hub
+    uv pip install -e . --no-deps strands-agents qwen-vl-utils pyyaml rust-just
+    echo "✅ Cosmos3-Edge env ready: {{C3_EDGE_VENV}}  (just c3-edge-doctor)"
+
+# Doctor: can this box run Cosmos3-Edge in-process?
+c3-edge-doctor:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{C3_EDGE_VENV}}" ] || { echo "missing venv -> just c3-setup-edge"; exit 1; }
+    "{{C3_EDGE_VENV}}/bin/python" - <<'PY'
+    import importlib, torch
+    print("torch", torch.__version__, "cuda", torch.cuda.is_available(),
+          torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")
+    import transformers, diffusers
+    print("transformers", transformers.__version__, "has Cosmos3EdgeForConditionalGeneration:",
+          hasattr(transformers, "Cosmos3EdgeForConditionalGeneration"), "(need >=5.19)")
+    print("diffusers", diffusers.__version__, "has Cosmos3OmniPipeline:", hasattr(diffusers, "Cosmos3OmniPipeline"), "(need >=0.40)")
+    for m in ("torchcodec", "av"):
+        try: importlib.import_module(m); print(m, "ok")
+        except Exception as e: print(m, "MISSING ->", e.__class__.__name__, "(video input needs one of them)")
+    from strands_cosmos.cosmos3_models import get_model, trained_embodiments
+    e = get_model("edge"); print("catalog:", e.id, e.size_label, sorted(e.surfaces), "licence", e.license)
+    print("trained embodiments:", ", ".join(trained_embodiments()))
+    PY
+
+# Edge reasoner smoke: caption an image or video in-process (HF_HUB_OFFLINE honoured).
+c3-edge-reason media="ws_red.png" prompt="Caption in detail." max_tokens="512":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{C3_EDGE_VENV}}" ] || { echo "missing venv -> just c3-setup-edge"; exit 1; }
+    C3_EDGE_MEDIA="{{media}}" C3_EDGE_PROMPT="{{prompt}}" C3_EDGE_MAX_TOKENS="{{max_tokens}}" C3_EDGE_MODEL="{{C3_EDGE_MODEL}}" \
+    "{{C3_EDGE_VENV}}/bin/python" - <<'PY'
+    import os, time
+    from strands import Agent
+    from strands_cosmos import Cosmos3EdgeHFModel
+    media = os.environ["C3_EDGE_MEDIA"]
+    tag = "video" if media.lower().endswith((".mp4", ".mov", ".mkv", ".webm")) else "image"
+    agent = Agent(model=Cosmos3EdgeHFModel(model_id=os.environ["C3_EDGE_MODEL"],
+                                           params={"max_tokens": int(os.environ["C3_EDGE_MAX_TOKENS"])}),
+                  callback_handler=None)
+    t0 = time.time(); r = agent(f"{os.environ['C3_EDGE_PROMPT']} <{tag}>{media}</{tag}>")
+    print(str(r).strip()); print(f"\n[{time.time()-t0:.1f}s incl. load] usage={r.metrics.accumulated_usage}")
+    PY
+
+# Edge action smoke: policy rollout for a trained embodiment from one frame.
+c3-edge-action image="sample.png" embodiment="droid_lerobot" prompt="pick up the object" steps="8" out="/tmp/c3_edge_action":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{C3_EDGE_VENV}}" ] || { echo "missing venv -> just c3-setup-edge"; exit 1; }
+    C3_EDGE_IMAGE="{{image}}" C3_EDGE_EMB="{{embodiment}}" C3_EDGE_PROMPT="{{prompt}}" C3_EDGE_STEPS="{{steps}}" C3_EDGE_OUT="{{out}}" \
+    "{{C3_EDGE_VENV}}/bin/python" - <<'PY'
+    import os, json
+    from strands_cosmos import cosmos3_action_edge
+    r = cosmos3_action_edge(image=os.environ["C3_EDGE_IMAGE"], embodiment=os.environ["C3_EDGE_EMB"],
+                            prompt=os.environ["C3_EDGE_PROMPT"], steps=int(os.environ["C3_EDGE_STEPS"]), out=os.environ["C3_EDGE_OUT"])
+    print(r["content"][0]["text"])
+    PY
+
 # Setup: vLLM-Omni (Generator server)
 c3-setup-omni:
     #!/usr/bin/env bash
