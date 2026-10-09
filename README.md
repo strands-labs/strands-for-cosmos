@@ -288,8 +288,10 @@ just c3-train vision_sft_nano           # fine-tune (8x H100); see the training 
 | Model | Size | Capability |
 |-------|-----:|------------|
 | [Cosmos3-Nano](https://huggingface.co/nvidia/Cosmos3-Nano) | 16B | Omnimodal (reasoner + generator + action) - fits a single ~46GB GPU |
+| [Cosmos3-Edge](https://huggingface.co/nvidia/Cosmos3-Edge) | 4B | Omnimodal minus sound; reasoner **in-process** via Transformers (`Cosmos3EdgeHFModel`, 4.6 GB), generator 7.6 GB, action without Cosmos Framework (`cosmos3_action_edge`) — measured on Jetson AGX Thor, see [guide](docs/guide/cosmos3-edge.md) |
 | [Cosmos3-Super](https://huggingface.co/nvidia/Cosmos3-Super) | 64B | Frontier-scale (multi-GPU / tensor-parallel) |
 | [Cosmos3-Nano-Policy-DROID](https://huggingface.co/nvidia/Cosmos3-Nano-Policy-DROID) | 16B | VL robot policy (DROID) |
+| [Cosmos3-Edge-Policy-DROID](https://huggingface.co/nvidia/Cosmos3-Edge-Policy-DROID) | 4B | Edge-size VL robot policy (DROID) |
 
 </details>
 

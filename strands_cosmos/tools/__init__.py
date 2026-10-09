@@ -44,6 +44,7 @@ from strands_cosmos.tools.cosmos3 import (
 )
 
 # Cosmos 3 extra (prompt upsampling / batch captioning / videophy2 eval)
+from strands_cosmos.tools.cosmos3_edge import cosmos3_action_edge
 from strands_cosmos.tools.cosmos3_extra import (
     cosmos3_caption_batch,
     cosmos3_eval_videophy2,
@@ -149,6 +150,8 @@ __all__ = [
     "cosmos3_inverse_dynamics",
     "cosmos3_policy",
     "cosmos3_serve",
+    # Cosmos 3 Edge (in-process, no server / framework)
+    "cosmos3_action_edge",
     # Cosmos 3 training
     "cosmos3_train_recipes",
     "cosmos3_train_show",

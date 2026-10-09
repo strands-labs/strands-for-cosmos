@@ -49,7 +49,7 @@ def cosmos3_train_show(recipe: str = "vision_sft_nano") -> dict:
 
     Args:
         recipe: SFT recipe name (e.g. vision_sft_nano, vision_sft_super,
-            llava_ov, videophy2_nano).
+            vision_sft_edge, llava_ov, videophy2_nano, videophy2_edge).
 
     Returns:
         A Strands tool-result dict ``{"status", "content"}``. On success the
@@ -69,7 +69,9 @@ def cosmos3_train_convert(checkpoint: str = "nvidia/Cosmos3-Nano", out: str = ""
     """Convert a base Cosmos 3 checkpoint to PyTorch DCP format for training.
 
     Args:
-        checkpoint: Catalog name / HF id (e.g. Cosmos3-Nano, Cosmos3-Super).
+        checkpoint: Catalog name / HF id (e.g. Cosmos3-Nano, Cosmos3-Super,
+            nvidia/Cosmos3-Edge). HF ids are resolved to the local HF snapshot
+            by the recipe because the framework only accepts names or dirs.
         out: Output DCP dir (default examples/checkpoints/<name>).
 
     Returns:

@@ -764,10 +764,13 @@ c3-doctor:
 # arch sm_110a) fatals with: "Value 'sm_110a' is not defined for option 'gpu-name'".
 # The system CUDA 13 toolkit ptxas DOES support sm_110a. This recipe backs up the
 # bundled binary once (.orig) and symlinks it to the system ptxas. Safe to re-run.
-c3-fix-ptxas:
+# venv: defaults to the reasoner venv; pass another (e.g. the framework's
+# `../cosmos/packages/cosmos3/.venv`, or .venv-c3-edge) — the Cosmos Framework
+# trainer hits the same ptxas trap on Thor even with model.compile disabled.
+c3-fix-ptxas venv=C3_REASON_VENV:
     #!/usr/bin/env bash
     set -euo pipefail
-    VENV="{{C3_REASON_VENV}}"
+    VENV="{{venv}}"
     [ -d "$VENV" ] || { echo "venv $VENV missing — run c3-setup-reason first"; exit 0; }
     # Locate triton's bundled ptxas-blackwell inside the venv
     PTXAS="$("$VENV/bin/python" -c "import glob,os;h=glob.glob(os.path.join('$VENV','lib','python*','site-packages','triton','backends','nvidia','bin','ptxas-blackwell'));print(h[0] if h else '')")"
@@ -824,6 +827,84 @@ c3-setup-gen:
       torch torchvision transformers
     echo "✅ Generator env ready: {{C3_GEN_VENV}}"
 
+# ── Cosmos3-Edge (4B): one venv, no vLLM, no Cosmos Framework ──────────────
+# Edge loads with RELEASED transformers>=5.19 (Cosmos3EdgeForConditionalGeneration)
+# and diffusers>=0.40 (Cosmos3OmniPipeline + CosmosActionCondition). Measured on a
+# Jetson AGX Thor (arm64, sm_110, cu130): reasoner 4.6 GiB / generator 7.6 GiB
+# weights, see docs/guide/cosmos3-edge.md.
+C3_EDGE_VENV       := env_var_or_default("C3_EDGE_VENV", ".venv-c3-edge")
+C3_EDGE_MODEL      := env_var_or_default("C3_EDGE_MODEL", "nvidia/Cosmos3-Edge")
+
+# Setup: Cosmos3-Edge venv (reasoner + generator + action, in-process)
+c3-setup-edge python="3.12":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    command -v uv >/dev/null || { echo "install uv first: https://docs.astral.sh/uv/"; exit 1; }
+    [ -d "{{C3_EDGE_VENV}}" ] || uv venv --python {{python}} --seed "{{C3_EDGE_VENV}}"
+    source "{{C3_EDGE_VENV}}/bin/activate"
+    # torch first with the CUDA backend that matches the driver (Thor/JetPack 7 = cu130).
+    uv pip install --torch-backend={{C3_TORCH_BACKEND}} torch torchvision torchcodec
+    uv pip install "transformers>=5.19" "diffusers>=0.40" accelerate av pillow huggingface_hub
+    uv pip install -e . --no-deps strands-agents qwen-vl-utils pyyaml rust-just
+    just c3-fix-ptxas "{{C3_EDGE_VENV}}" || true
+    echo "✅ Cosmos3-Edge env ready: {{C3_EDGE_VENV}}  (just c3-edge-doctor)"
+
+# Doctor: can this box run Cosmos3-Edge in-process?
+c3-edge-doctor:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{C3_EDGE_VENV}}" ] || { echo "missing venv -> just c3-setup-edge"; exit 1; }
+    "{{C3_EDGE_VENV}}/bin/python" - <<'PY'
+    import importlib, torch
+    print("torch", torch.__version__, "cuda", torch.cuda.is_available(),
+          torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")
+    import transformers, diffusers
+    print("transformers", transformers.__version__, "has Cosmos3EdgeForConditionalGeneration:",
+          hasattr(transformers, "Cosmos3EdgeForConditionalGeneration"), "(need >=5.19)")
+    print("diffusers", diffusers.__version__, "has Cosmos3OmniPipeline:", hasattr(diffusers, "Cosmos3OmniPipeline"), "(need >=0.40)")
+    for m in ("torchcodec", "av"):
+        try: importlib.import_module(m); print(m, "ok")
+        except Exception as e: print(m, "MISSING ->", e.__class__.__name__, "(video input needs one of them)")
+    from strands_cosmos.cosmos3_models import get_model, trained_embodiments
+    e = get_model("edge"); print("catalog:", e.id, e.size_label, sorted(e.surfaces), "licence", e.license)
+    print("trained embodiments:", ", ".join(trained_embodiments()))
+    PY
+
+# Edge reasoner smoke: caption an image or video in-process (HF_HUB_OFFLINE honoured).
+# Positional (just has no named args): just c3-edge-reason sample.mp4 "Caption in detail." 512
+c3-edge-reason media="ws_red.png" prompt="Caption in detail." max_tokens="512":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{C3_EDGE_VENV}}" ] || { echo "missing venv -> just c3-setup-edge"; exit 1; }
+    C3_EDGE_MEDIA="{{media}}" C3_EDGE_PROMPT="{{prompt}}" C3_EDGE_MAX_TOKENS="{{max_tokens}}" C3_EDGE_MODEL="{{C3_EDGE_MODEL}}" \
+    "{{C3_EDGE_VENV}}/bin/python" - <<'PY'
+    import os, time
+    from strands import Agent
+    from strands_cosmos import Cosmos3EdgeHFModel
+    media = os.environ["C3_EDGE_MEDIA"]
+    tag = "video" if media.lower().endswith((".mp4", ".mov", ".mkv", ".webm")) else "image"
+    agent = Agent(model=Cosmos3EdgeHFModel(model_id=os.environ["C3_EDGE_MODEL"],
+                                           params={"max_tokens": int(os.environ["C3_EDGE_MAX_TOKENS"])}),
+                  callback_handler=None)
+    t0 = time.time(); r = agent(f"{os.environ['C3_EDGE_PROMPT']} <{tag}>{media}</{tag}>")
+    print(str(r).strip()); print(f"\n[{time.time()-t0:.1f}s incl. load] usage={r.metrics.accumulated_usage}")
+    PY
+
+# Edge action smoke: policy rollout for a trained embodiment from one frame.
+# Positional: just c3-edge-action sample.png droid_lerobot "pick up the object" 8 /tmp/c3_edge_action
+c3-edge-action image="sample.png" embodiment="droid_lerobot" prompt="pick up the object" steps="8" out="/tmp/c3_edge_action":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d "{{C3_EDGE_VENV}}" ] || { echo "missing venv -> just c3-setup-edge"; exit 1; }
+    C3_EDGE_IMAGE="{{image}}" C3_EDGE_EMB="{{embodiment}}" C3_EDGE_PROMPT="{{prompt}}" C3_EDGE_STEPS="{{steps}}" C3_EDGE_OUT="{{out}}" \
+    "{{C3_EDGE_VENV}}/bin/python" - <<'PY'
+    import os, json
+    from strands_cosmos import cosmos3_action_edge
+    r = cosmos3_action_edge(image=os.environ["C3_EDGE_IMAGE"], embodiment=os.environ["C3_EDGE_EMB"],
+                            prompt=os.environ["C3_EDGE_PROMPT"], steps=int(os.environ["C3_EDGE_STEPS"]), out=os.environ["C3_EDGE_OUT"])
+    print(r["content"][0]["text"])
+    PY
+
 # Setup: vLLM-Omni (Generator server)
 c3-setup-omni:
     #!/usr/bin/env bash
@@ -846,6 +927,9 @@ c3-setup-framework:
     cd "{{C3_FRAMEWORK_REPO}}"
     export GIT_LFS_SKIP_SMUDGE=1
     uv sync --all-extras --group={{C3_TORCH_BACKEND}}-train
+    cd - >/dev/null
+    # Thor/Blackwell: triton's bundled ptxas-blackwell lacks sm_110a (no-op elsewhere)
+    just c3-fix-ptxas "{{C3_FRAMEWORK_REPO}}/.venv" || true
     echo "✅ Framework env ready: {{C3_FRAMEWORK_REPO}}/.venv"
 
 # Reasoner: serve (Cosmos3-Nano single GPU)
@@ -1020,8 +1104,17 @@ c3-train-convert checkpoint=C3_MODEL out="":
     cd "{{C3_FRAMEWORK_REPO}}"
     name="$(basename '{{checkpoint}}')"
     out="{{out}}"; out="${out:-examples/checkpoints/$name}"
+    ckpt="{{checkpoint}}"
+    # The framework accepts a registered NAME (Cosmos3-Nano) or a LOCAL DIR, not an
+    # HF id: `nvidia/Cosmos3-Edge` fails with "Checkpoint directory does not exist".
+    # Resolve org/name to the local HF snapshot (downloads if not cached). Measured
+    # on Jetson AGX Thor: Cosmos3-Edge -> 6.3 GB DCP in 70 s (needs the Wan2.2 VAE
+    # from HF, so do not set HF_HUB_OFFLINE unless it is cached too).
+    case "$ckpt" in
+      */*) [ -d "$ckpt" ] || ckpt="$(.venv/bin/python -c "import sys;from huggingface_hub import snapshot_download as s;print(s(sys.argv[1]))" "$ckpt")";;
+    esac
     .venv/bin/python -m cosmos_framework.scripts.convert_model_to_dcp \
-      -o "$out" --checkpoint-path "{{checkpoint}}"
+      -o "$out" --checkpoint-path "$ckpt"
     echo "DCP checkpoint -> $out"
 
 # Step 2 (reasoner VLM) — merge Cosmos3 LM onto the Qwen3-VL visual tower.
@@ -1057,7 +1150,7 @@ c3-train-show recipe="vision_sft_nano":
       || { echo "(dryrun unavailable; showing raw recipe TOML)"; cat "$toml"; }
 
 # Step 3 — run SFT. Prefer the paired launch shell (handles paths + checks).
-# recipe: vision_sft_nano | vision_sft_super | llava_ov | videophy2_nano
+# recipe: vision_sft_nano | vision_sft_super | vision_sft_edge | llava_ov | videophy2_nano | videophy2_edge
 # nproc: GPUs (default 8). dataset/checkpoint: override default paths.
 c3-train recipe="vision_sft_nano" nproc=C3_TRAIN_NPROC dataset="" checkpoint="" overrides="":
     #!/usr/bin/env bash

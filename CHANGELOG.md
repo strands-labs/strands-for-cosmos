@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Cosmos3-Edge (4B) inference everywhere Cosmos3-Nano was assumed
+
+- **`strands_cosmos.cosmos3_models`**: catalog of Cosmos 3 checkpoints (Nano, Edge,
+  Policy-DROID variants: surfaces, in-process loader class, minimum
+  transformers/diffusers, licence) with alias resolution (`"edge"` →
+  `nvidia/Cosmos3-Edge`), `require_surface()` and the Edge **embodiment registry**
+  with the measured trained/untrained split (10 of 32 slots trained).
+  `validate_embodiment("so101")` / `("pusht")` fail early with a specific message.
+- **`Cosmos3EdgeHFModel`** provider: Cosmos3-Edge reasoner **in-process via
+  Transformers ≥ 5.19** (no vLLM server), same `<image>`/`<video>` tags as
+  `CosmosVisionModel`, lazy load, `<think>` block routed to `reasoningContent`.
+  Measured on Jetson AGX Thor: 4.55 GiB, 15–20 tok/s image, 16.7 tok/s video.
+- **`cosmos3_action_edge`** tool: policy / forward_dynamics / inverse_dynamics
+  through Diffusers `Cosmos3OmniPipeline` + `CosmosActionCondition` — no Cosmos
+  Framework. Thor: `droid_lerobot` policy chunk 16 → (16, 10) actions + 17 frames
+  in 35–60 s, peak 12.1 GiB.
+- `cosmos3_reason(backend="hf", model=...)` runs the in-process Edge reasoner.
+- justfile: `c3-setup-edge`, `c3-edge-doctor`, `c3-edge-reason`, `c3-edge-action`.
+- `docs/guide/cosmos3-edge.md` with every number above and its command;
+  README model table rows for Edge and Edge-Policy-DROID; `examples/13_cosmos3_edge.py`.
+
+### Changed
+
+- `cosmos3_text2video_sound` / `cosmos3_image2video_sound` consult the catalog
+  (`C3_GEN_MODEL` / `C3_MODEL`) and refuse checkpoints without a sound tower
+  (Cosmos3-Edge has `sound_gen=False`) before loading any weights; their failure
+  text now carries stderr.
 ### Fixed
 - Docs: the home page mermaid diagram (`--> RCosmos 3`) was a parse error; mermaid left its "Syntax error" box in `<body>` and instant navigation carried it onto every other page. Fixed the fence and added a grader (`tests/test_docs_health.py`) that checks every mermaid fence.
 - Docs: 54 raw-HTML asset paths were pinned to `/strands-cosmos/…`; the site lives at `/strands-for-cosmos/`, so every example GIF/MP4 on the home page and 11 detail pages 404'd. Paths are relative to the page URL now, and the grader refuses site-root-absolute paths.

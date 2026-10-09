@@ -9,6 +9,7 @@ Transfer2.5, Xenna curation, quantization, edge deployment, and evaluation.
 Model Providers (use as Agent model):
   - Cosmos3ReasonerModel: Cosmos 3 omnimodal reasoning (text+vision -> text) via vLLM
   - Cosmos3GeneratorModel: Cosmos 3 generation (-> image/video/sound) via Diffusers
+  - Cosmos3EdgeHFModel: Cosmos3-Edge reasoner in-process via Transformers (no vLLM; Jetson-friendly)
   - CosmosVisionModel: Reason2 VLM (video + image + text) via HF Transformers
   - CosmosModel: Reason2 text-only via HF Transformers
 
@@ -25,6 +26,7 @@ except ImportError:  # not installed via setuptools-scm build (e.g. editable pre
     __version__ = "0.0.0+unknown"
 
 
+from strands_cosmos.cosmos3_edge_hf_model import Cosmos3EdgeHFModel
 from strands_cosmos.cosmos3_generator_model import Cosmos3GeneratorModel
 from strands_cosmos.cosmos3_reasoner_model import Cosmos3ReasonerModel
 from strands_cosmos.cosmos_model import CosmosModel
@@ -44,6 +46,7 @@ from strands_cosmos.tools import (
     cosmos3_inverse_dynamics,
     cosmos3_plausibility,
     cosmos3_policy,
+    cosmos3_action_edge,
     # Cosmos 3
     cosmos3_reason,
     cosmos3_serve,
@@ -102,6 +105,7 @@ __all__ = [
     "CosmosVisionModel",
     "Cosmos3ReasonerModel",
     "Cosmos3GeneratorModel",
+    "Cosmos3EdgeHFModel",
     # Reason2 VLM
     "cosmos_inference",
     "cosmos_reason_hf",
@@ -151,6 +155,7 @@ __all__ = [
     "cosmos3_inverse_dynamics",
     "cosmos3_policy",
     "cosmos3_serve",
+    "cosmos3_action_edge",
     # Cosmos 3 training
     "cosmos3_train_recipes",
     "cosmos3_train_show",
