@@ -46,6 +46,7 @@ from strands_cosmos.tools import (
     cosmos3_inverse_dynamics,
     cosmos3_plausibility,
     cosmos3_policy,
+    cosmos3_action_edge,
     # Cosmos 3
     cosmos3_reason,
     cosmos3_serve,
@@ -154,6 +155,7 @@ __all__ = [
     "cosmos3_inverse_dynamics",
     "cosmos3_policy",
     "cosmos3_serve",
+    "cosmos3_action_edge",
     # Cosmos 3 training
     "cosmos3_train_recipes",
     "cosmos3_train_show",
