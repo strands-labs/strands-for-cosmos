@@ -764,10 +764,13 @@ c3-doctor:
 # arch sm_110a) fatals with: "Value 'sm_110a' is not defined for option 'gpu-name'".
 # The system CUDA 13 toolkit ptxas DOES support sm_110a. This recipe backs up the
 # bundled binary once (.orig) and symlinks it to the system ptxas. Safe to re-run.
-c3-fix-ptxas:
+# venv: defaults to the reasoner venv; pass another (e.g. the framework's
+# `../cosmos/packages/cosmos3/.venv`, or .venv-c3-edge) — the Cosmos Framework
+# trainer hits the same ptxas trap on Thor even with model.compile disabled.
+c3-fix-ptxas venv=C3_REASON_VENV:
     #!/usr/bin/env bash
     set -euo pipefail
-    VENV="{{C3_REASON_VENV}}"
+    VENV="{{venv}}"
     [ -d "$VENV" ] || { echo "venv $VENV missing — run c3-setup-reason first"; exit 0; }
     # Locate triton's bundled ptxas-blackwell inside the venv
     PTXAS="$("$VENV/bin/python" -c "import glob,os;h=glob.glob(os.path.join('$VENV','lib','python*','site-packages','triton','backends','nvidia','bin','ptxas-blackwell'));print(h[0] if h else '')")"
@@ -843,6 +846,7 @@ c3-setup-edge python="3.12":
     uv pip install --torch-backend={{C3_TORCH_BACKEND}} torch torchvision torchcodec
     uv pip install "transformers>=5.19" "diffusers>=0.40" accelerate av pillow huggingface_hub
     uv pip install -e . --no-deps strands-agents qwen-vl-utils pyyaml rust-just
+    just c3-fix-ptxas "{{C3_EDGE_VENV}}" || true
     echo "✅ Cosmos3-Edge env ready: {{C3_EDGE_VENV}}  (just c3-edge-doctor)"
 
 # Doctor: can this box run Cosmos3-Edge in-process?
@@ -923,6 +927,9 @@ c3-setup-framework:
     cd "{{C3_FRAMEWORK_REPO}}"
     export GIT_LFS_SKIP_SMUDGE=1
     uv sync --all-extras --group={{C3_TORCH_BACKEND}}-train
+    cd - >/dev/null
+    # Thor/Blackwell: triton's bundled ptxas-blackwell lacks sm_110a (no-op elsewhere)
+    just c3-fix-ptxas "{{C3_FRAMEWORK_REPO}}/.venv" || true
     echo "✅ Framework env ready: {{C3_FRAMEWORK_REPO}}/.venv"
 
 # Reasoner: serve (Cosmos3-Nano single GPU)
