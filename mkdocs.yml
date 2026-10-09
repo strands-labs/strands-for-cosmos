@@ -68,6 +68,7 @@ nav:
   - Guide:
     - Cosmos 3 (Omnimodal): guide/cosmos3.md
     - Cosmos 3 Training (SFT): guide/cosmos3-training.md
+    - Cosmos3-Edge (4B, in-process): guide/cosmos3-edge.md
     - Video Understanding: guide/video-understanding.md
     - Image Reasoning: guide/image-reasoning.md
     - Chain-of-Thought: guide/chain-of-thought.md

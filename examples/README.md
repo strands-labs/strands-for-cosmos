@@ -38,6 +38,7 @@ before you spend GPU time on a reasoner or generator.
 ```bash
 python examples/11_media_prep.py
 ```
+| `13_cosmos3_edge.py` | [guide](../docs/guide/cosmos3-edge.md) | Cosmos3-Edge (4B) in-process: reason / generate / act on one GPU, no server |
 
 ---
 
