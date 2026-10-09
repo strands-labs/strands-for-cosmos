@@ -135,8 +135,14 @@ framework ships Edge recipes: `vision_sft_edge` (generator T2V/I2V/V2V) and `vid
 |---|---|---|
 | 1 convert | `just c3-train-convert nvidia/Cosmos3-Edge` | **PASS** — 6.3 GB DCP in `examples/checkpoints/Cosmos3-Edge`, 70 s. The recipe resolves the HF id to the local snapshot (the framework only accepts a registered name or a directory). Needs the Wan2.2 VAE (`Wan-AI/Wan2.2-TI2V-5B/Wan2.2_VAE.pth`, fetched automatically — do not set `HF_HUB_OFFLINE` unless it is cached). |
 | 2 dataset | `train/video_dataset_file.jsonl` (see framework `docs/dataset_jsonl.md`) | `vision_path` may be an absolute local path. **Every window needs ≥ 61 frames** (`get_sft_dataset(min_frames=61)`), otherwise the loader ends with `AssertionError: Did not find any data` after the model has already been built. |
-| 3 SFT smoke | `NPROC_PER_NODE=1 TAIL_OVERRIDES=(trainer.max_iter=10 checkpoint.save_iter=10 model.compile.enabled=false model.ema.enabled=false trainer.grad_accum_iter=1) bash examples/launch_sft_vision_edge.sh` | model build + DCP warm-start **PASS** on 1 GPU (checkpoint load 11.3 s, FSDP mesh [1,1], bf16, full activation checkpointing); GPU memory during the first step ≈ 119 GiB of 122.8 GiB — see the result row below. |
+| 3 SFT, upstream config | `NPROC_PER_NODE=1 bash examples/launch_sft_vision_edge.sh` (45k-token packing, inductor on) | model build + DCP warm-start **PASS** (11.3 s); first step never completed: inductor compile ran > 15 min on arm64, host RAM climbed to 115 of 122 GB with no swap and **Thor rebooted** (04:33Z). Do **not** run the upstream config on a Jetson. |
+| 3 SFT, Thor config | same launcher + `TORCH_COMPILE_DISABLE=1` and `TAIL_OVERRIDES=(trainer.max_iter=5 checkpoint.save_iter=5 model.compile.enabled=false model.ema.enabled=false trainer.grad_accum_iter=1 model.max_num_tokens_after_packing=8192 dataloader_train.max_sequence_length=8192 dataloader_train.num_workers=1)` | warm-start **PASS**, steady at 92 of 122 GB host RAM, GPU 98 %; see the result line below. |
 | 4 export + infer | `cosmos_framework.scripts.export_model` → `Cosmos3OmniPipeline` | see below |
+
+**Memory guard (Jetson):** `systemd-run --user --scope -p MemoryMax=80G` does **not** bound this
+process — GPU/UVM pages are not cgroup-accounted (the scope reported 18 GiB while the system was at
+92 GB). Run a watchdog that kills the trainer when `MemAvailable` drops under ~10 GiB
+(`~/sfc-edge-logs/memguard.sh` in the lane logs is 10 lines); a clean kill beats a reboot.
 
 Use the venv's `torchrun` (`.venv/bin`), not a system one — a `~/.local/bin/torchrun` first on PATH
 launches `/usr/bin/python3` without the framework (`ModuleNotFoundError: omegaconf`).
