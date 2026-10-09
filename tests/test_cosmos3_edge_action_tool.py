@@ -87,10 +87,12 @@ def test_policy_happy_path_with_fake_pipeline(ws, monkeypatch):
     assert "actions [16, 10]" in _text(r)
 
 
-def test_nano_policy_checkpoint_is_allowed_edge_sound_is_not(ws, monkeypatch):
-    monkeypatch.setattr(t, "_get_pipeline", lambda *_: pytest.fail("pipeline must not load"))
+def test_policy_droid_checkpoint_passes_validation_and_reaches_load(ws, monkeypatch):
+    def boom(mid):
+        raise RuntimeError(f"would load {mid}")
+    monkeypatch.setattr(t, "_get_pipeline", boom)
     _fake_diffusers(monkeypatch)
-    # catalog says the DROID policy checkpoints have an action surface -> passes validation, fails only at load (mocked)
+    # catalog: the DROID policy checkpoints have an action surface -> validation passes, load is reached
     r = t.cosmos3_action_edge(image=str(ws / "frame.png"), model="edge-policy-droid", embodiment="bridge_orig_lerobot",
                               out=str(ws / "p"))
-    assert "pipeline must not load" in _text(r) or r["status"] == "error"
+    assert r["status"] == "error" and "would load nvidia/Cosmos3-Edge-Policy-DROID" in _text(r)
