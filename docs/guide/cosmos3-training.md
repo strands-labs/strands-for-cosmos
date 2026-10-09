@@ -146,3 +146,17 @@ process — GPU/UVM pages are not cgroup-accounted (the scope reported 18 GiB wh
 
 Use the venv's `torchrun` (`.venv/bin`), not a system one — a `~/.local/bin/torchrun` first on PATH
 launches `/usr/bin/python3` without the framework (`ModuleNotFoundError: omegaconf`).
+
+### What to run where (Edge)
+
+| step | Jetson AGX Thor (measured) | 8×H100 (upstream recipe) |
+|---|---|---|
+| framework install | 58 s, works | works |
+| convert → DCP | 70 s, 6.3 GB | same |
+| dataset prep / validation (`--dryrun`) | works | same |
+| `vision_sft_edge` upstream config | **reboots the box** (host RAM exhausted) | `NPROC_PER_NODE=8 bash examples/launch_sft_vision_edge.sh` — 500 iters, 45k-token packing, FSDP, EMA, torch.compile |
+| `vision_sft_edge` Thor config (eager, 8k packing, 1 worker) | model + warm-start fine; one optimizer step is very slow (see result line) | n/a |
+| export → Diffusers → `Cosmos3OmniPipeline` | `export_model --no-use-torch-compile --no-use-cuda-graphs` → `convert_model_to_diffusers` → reload; the chain is `c4_export_infer.sh` in the lane logs | same without the flags |
+
+In short: **use Thor to prepare and to validate** (convert, dataset, dry-run, export/reload of a checkpoint trained
+elsewhere, inference with `cosmos3_action_edge` / `Cosmos3EdgeHFModel`), and **train on the 8×H100 recipe**.
