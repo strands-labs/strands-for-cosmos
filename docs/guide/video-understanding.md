@@ -14,13 +14,13 @@ Cosmos-Reason2 processes video at configurable frame rates, extracting temporal 
 
 ## See It In Action
 
-<img src="/strands-cosmos/assets/videos/02_video_caption.gif" alt="Video captioning on Jetson AGX Thor" width="100%">
+<img src="../../assets/videos/02_video_caption.gif" alt="Video captioning on Jetson AGX Thor" width="100%">
 
 <details>
-<summary>📺 Can't see the animation? <a href="/strands-cosmos/assets/videos/02_video_caption.mp4">Download MP4</a></summary>
+<summary>📺 Can't see the animation? <a href="../../assets/videos/02_video_caption.mp4">Download MP4</a></summary>
 
 <video controls width="100%" muted>
-  <source src="/strands-cosmos/assets/videos/02_video_caption.mp4" type="video/mp4">
+  <source src="../../assets/videos/02_video_caption.mp4" type="video/mp4">
 </video>
 
 </details>
@@ -58,7 +58,7 @@ agent("Caption this video in detail: <video>scene.mp4</video>")
 
 ## Driving Analysis (Video + CoT)
 
-<img src="/strands-cosmos/assets/videos/03_driving_analysis.gif" alt="Driving analysis with chain-of-thought" width="100%">
+<img src="../../assets/videos/03_driving_analysis.gif" alt="Driving analysis with chain-of-thought" width="100%">
 
 ```python
 model = CosmosVisionModel(

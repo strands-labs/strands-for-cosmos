@@ -6,13 +6,13 @@ Text-only inference with Cosmos-Reason2. No video or image needed — pure physi
 
 ## Terminal Recording
 
-<img src="/strands-cosmos/assets/videos/01_basic_text.gif" alt="Basic text inference demo" width="100%">
+<img src="../../assets/videos/01_basic_text.gif" alt="Basic text inference demo" width="100%">
 
 <details>
-<summary>📺 Can't see the animation? <a href="/strands-cosmos/assets/videos/01_basic_text.mp4">Download MP4</a></summary>
+<summary>📺 Can't see the animation? <a href="../../assets/videos/01_basic_text.mp4">Download MP4</a></summary>
 
 <video controls width="100%" muted>
-  <source src="/strands-cosmos/assets/videos/01_basic_text.mp4" type="video/mp4">
+  <source src="../../assets/videos/01_basic_text.mp4" type="video/mp4">
 </video>
 
 </details>

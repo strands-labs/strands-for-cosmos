@@ -12,7 +12,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 ## Demo Video
 
 <a href="https://github.com/cagataycali/strands-cosmos/releases/download/v0.1.1/strands-cosmos-demo.mp4">
-  <img src="/strands-cosmos/strands-cosmos-demo-preview.gif" alt="Demo — Driving analysis on Jetson AGX Thor" width="100%">
+  <img src="../../strands-cosmos-demo-preview.gif" alt="Demo — Driving analysis on Jetson AGX Thor" width="100%">
 </a>
 
 > *Click to watch the full demo video*
@@ -25,7 +25,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 
 - **01 — Basic Text (Physics Reasoning)**
 
-    <img src="/strands-cosmos/assets/videos/01_basic_text.gif" alt="Basic text inference" width="100%">
+    <img src="../../assets/videos/01_basic_text.gif" alt="Basic text inference" width="100%">
 
     Text-only physics reasoning — no video or image needed. ~11s on Thor.
 
@@ -33,7 +33,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 
 - **02 — Video Captioning**
 
-    <img src="/strands-cosmos/assets/videos/02_video_caption.gif" alt="Video captioning" width="100%">
+    <img src="../../assets/videos/02_video_caption.gif" alt="Video captioning" width="100%">
 
     Detailed temporal-spatial descriptions from video. ~15s on Thor.
 
@@ -41,7 +41,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 
 - **03 — Driving Analysis (CoT)**
 
-    <img src="/strands-cosmos/assets/videos/03_driving_analysis.gif" alt="Driving analysis" width="100%">
+    <img src="../../assets/videos/03_driving_analysis.gif" alt="Driving analysis" width="100%">
 
     Dashcam safety analysis with chain-of-thought reasoning. ~16s on Thor.
 
@@ -49,7 +49,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 
 - **04 — Embodied Reasoning**
 
-    <img src="/strands-cosmos/assets/videos/04_embodied_reasoning.gif" alt="Embodied reasoning" width="100%">
+    <img src="../../assets/videos/04_embodied_reasoning.gif" alt="Embodied reasoning" width="100%">
 
     Robot next-action prediction from workspace images. ~43s on Thor.
 
@@ -57,7 +57,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 
 - **05 — Tool Usage**
 
-    <img src="/strands-cosmos/assets/videos/05_tool_usage.gif" alt="Tool usage" width="100%">
+    <img src="../../assets/videos/05_tool_usage.gif" alt="Tool usage" width="100%">
 
     Cosmos as a callable tool inside any Strands agent. ~9s on Thor.
 
@@ -83,7 +83,7 @@ Runnable examples tested on NVIDIA Jetson AGX Thor (132GB unified memory).
 
 - **09 — Cosmos 3 Showcase (Reason → Generate)**
 
-    <img src="/strands-cosmos/assets/cosmos3_showcase/02_text2video_sound.gif" alt="Cosmos 3 reason to generate" width="100%">
+    <img src="../../assets/cosmos3_showcase/02_text2video_sound.gif" alt="Cosmos 3 reason to generate" width="100%">
 
     Reason about a real video, then generate similar videos (incl. audio) from the description.
 

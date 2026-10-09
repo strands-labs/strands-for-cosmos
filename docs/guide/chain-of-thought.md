@@ -13,13 +13,13 @@ Enable `<think>` step-by-step reasoning before the final answer. Critical for co
 
 ## See It In Action
 
-<img src="/strands-cosmos/assets/videos/03_driving_analysis.gif" alt="Chain-of-thought driving analysis on Jetson" width="100%">
+<img src="../../assets/videos/03_driving_analysis.gif" alt="Chain-of-thought driving analysis on Jetson" width="100%">
 
 <details>
-<summary>📺 Can't see the animation? <a href="/strands-cosmos/assets/videos/03_driving_analysis.mp4">Download MP4</a></summary>
+<summary>📺 Can't see the animation? <a href="../../assets/videos/03_driving_analysis.mp4">Download MP4</a></summary>
 
 <video controls width="100%" muted>
-  <source src="/strands-cosmos/assets/videos/03_driving_analysis.mp4" type="video/mp4">
+  <source src="../../assets/videos/03_driving_analysis.mp4" type="video/mp4">
 </video>
 
 </details>
@@ -93,7 +93,7 @@ Reasoning increases output length and inference time:
 
 ## Robot Embodied Reasoning with CoT
 
-<img src="/strands-cosmos/assets/videos/04_embodied_reasoning.gif" alt="Robot embodied reasoning with chain-of-thought" width="100%">
+<img src="../../assets/videos/04_embodied_reasoning.gif" alt="Robot embodied reasoning with chain-of-thought" width="100%">
 
 ```python
 model = CosmosVisionModel(

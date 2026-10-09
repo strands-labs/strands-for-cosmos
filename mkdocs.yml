@@ -61,7 +61,7 @@ extra:
 
 nav:
   - Home: index.md
-  - Getting Started:
+  - Start:
     - Installation: getting-started/installation.md
     - Quickstart: getting-started/quickstart.md
   - Notebooks: notebooks.md
@@ -81,8 +81,9 @@ nav:
     - Embodied Reasoning: examples/embodied.md
     - Tool Usage: examples/tool-usage.md
   - Architecture: architecture.md
-  - API Reference: api-reference.md
-  - Changelog: changelog.md
+  - Reference:
+    - API Reference: api-reference.md
+    - Changelog: changelog.md
 
 plugins:
   - search

@@ -20,7 +20,10 @@ jobs:
 
       - name: Install mkdocs
         run: |
-          pip install mkdocs-material pymdown-extensions
+          pip install mkdocs-material pymdown-extensions pytest
+
+      - name: Docs health graders (asset paths, mermaid fences, nav row)
+        run: python -m pytest tests/test_docs_health.py -q
 
       - name: Build docs
         run: mkdocs build --strict

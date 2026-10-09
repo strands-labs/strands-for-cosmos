@@ -101,7 +101,7 @@ Jetson and quick local experiments.
 
 ## 1. Text-Only Physics Reasoning
 
-<img src="/strands-cosmos/assets/videos/01_basic_text.gif" alt="Text-only physics reasoning on Jetson" width="100%">
+<img src="../../assets/videos/01_basic_text.gif" alt="Text-only physics reasoning on Jetson" width="100%">
 
 ```python
 from strands import Agent
@@ -117,7 +117,7 @@ result = agent("What happens when you push a ball off the edge of a table?")
 
 ## 2. Video Understanding
 
-<img src="/strands-cosmos/assets/videos/02_video_caption.gif" alt="Video captioning on Jetson" width="100%">
+<img src="../../assets/videos/02_video_caption.gif" alt="Video captioning on Jetson" width="100%">
 
 ```python
 from strands import Agent
@@ -162,7 +162,7 @@ agent("<image>robot_workspace.jpg</image> What is the robot grasping?")
 
 ## 4. Chain-of-Thought Reasoning
 
-<img src="/strands-cosmos/assets/videos/03_driving_analysis.gif" alt="Chain-of-thought driving analysis" width="100%">
+<img src="../../assets/videos/03_driving_analysis.gif" alt="Chain-of-thought driving analysis" width="100%">
 
 ```python
 model = CosmosVisionModel(
@@ -179,7 +179,7 @@ agent("<video>intersection.mp4</video> Analyze the safety situation.")
 
 ## 5. As a Tool (Inside Another Agent)
 
-<img src="/strands-cosmos/assets/videos/05_tool_usage.gif" alt="Tool usage demo" width="100%">
+<img src="../../assets/videos/05_tool_usage.gif" alt="Tool usage demo" width="100%">
 
 ```python
 from strands import Agent

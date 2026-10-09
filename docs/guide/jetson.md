@@ -13,11 +13,11 @@ Run Cosmos-Reason2 on NVIDIA Jetson edge devices (AGX Thor, Orin).
 
 - **⚛️ Text-Only Physics (~11s)**
 
-    <img src="/strands-cosmos/assets/videos/01_basic_text.gif" alt="Text reasoning on Jetson" width="100%">
+    <img src="../../assets/videos/01_basic_text.gif" alt="Text reasoning on Jetson" width="100%">
 
 - **🚗 Driving Analysis + CoT (~16s)**
 
-    <img src="/strands-cosmos/assets/videos/03_driving_analysis.gif" alt="Driving analysis on Jetson" width="100%">
+    <img src="../../assets/videos/03_driving_analysis.gif" alt="Driving analysis on Jetson" width="100%">
 
 </div>
 
