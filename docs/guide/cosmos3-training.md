@@ -122,3 +122,21 @@ The exported safetensors can then be served back through `Cosmos3ReasonerModel`
 
 See the [cosmos-framework training docs](https://github.com/NVIDIA/cosmos-framework/blob/main/docs/training.md)
 for dataset licensing, OOM tuning, and the full Hydra override reference.
+
+## Cosmos3-Edge on a single edge GPU (measured on Jetson AGX Thor)
+
+The framework's recipes are written for 8×H100, but the *platform* is not the limit: on a Jetson AGX
+Thor (arm64, CUDA sm_110, 128 GB unified memory) `just c3-setup-framework` (`uv sync --all-extras
+--group=cu130-train`) completed in **58 s** (CPython 3.13, torch 2.10.0+cu130, CUDA on), and the
+framework ships Edge recipes: `vision_sft_edge` (generator T2V/I2V/V2V) and `videophy2_sft_edge`
+(reasoner), with `examples/launch_sft_vision_edge.sh` / `launch_sft_videophy2_edge.sh`.
+
+| step | command | Thor result |
+|---|---|---|
+| 1 convert | `just c3-train-convert nvidia/Cosmos3-Edge` | **PASS** — 6.3 GB DCP in `examples/checkpoints/Cosmos3-Edge`, 70 s. The recipe resolves the HF id to the local snapshot (the framework only accepts a registered name or a directory). Needs the Wan2.2 VAE (`Wan-AI/Wan2.2-TI2V-5B/Wan2.2_VAE.pth`, fetched automatically — do not set `HF_HUB_OFFLINE` unless it is cached). |
+| 2 dataset | `train/video_dataset_file.jsonl` (see framework `docs/dataset_jsonl.md`) | `vision_path` may be an absolute local path. **Every window needs ≥ 61 frames** (`get_sft_dataset(min_frames=61)`), otherwise the loader ends with `AssertionError: Did not find any data` after the model has already been built. |
+| 3 SFT smoke | `NPROC_PER_NODE=1 TAIL_OVERRIDES=(trainer.max_iter=10 checkpoint.save_iter=10 model.compile.enabled=false model.ema.enabled=false trainer.grad_accum_iter=1) bash examples/launch_sft_vision_edge.sh` | model build + DCP warm-start **PASS** on 1 GPU (checkpoint load 11.3 s, FSDP mesh [1,1], bf16, full activation checkpointing); GPU memory during the first step ≈ 119 GiB of 122.8 GiB — see the result row below. |
+| 4 export + infer | `cosmos_framework.scripts.export_model` → `Cosmos3OmniPipeline` | see below |
+
+Use the venv's `torchrun` (`.venv/bin`), not a system one — a `~/.local/bin/torchrun` first on PATH
+launches `/usr/bin/python3` without the framework (`ModuleNotFoundError: omegaconf`).
