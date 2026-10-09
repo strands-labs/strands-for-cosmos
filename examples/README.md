@@ -24,6 +24,7 @@ Copy-paste-ready scripts. Each one is the runnable distillation of a
 | `10_cosmos3_finetune.py` | *(advanced)* | SFT / fine-tuning via Cosmos Framework |
 | `11_media_prep.py` | [05](../notebooks/05_tool_usage.ipynb) | Inspect + stage media with the no-GPU tools (sysinfo / probe / frames / image) |
 | `12_multiturn_visual_chat.py` | [04](../notebooks/04_embodied_reasoning.ipynb) | Multi-turn conversation about one image; context carries across turns |
+| `13_cosmos3_edge.py` | [guide](../docs/guide/cosmos3-edge.md) | Cosmos3-Edge (4B) in-process: reason / generate / act on one GPU, no server |
 
 ---
 
@@ -38,7 +39,6 @@ before you spend GPU time on a reasoner or generator.
 ```bash
 python examples/11_media_prep.py
 ```
-| `13_cosmos3_edge.py` | [guide](../docs/guide/cosmos3-edge.md) | Cosmos3-Edge (4B) in-process: reason / generate / act on one GPU, no server |
 
 ---
 
