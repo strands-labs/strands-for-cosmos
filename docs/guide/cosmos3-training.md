@@ -136,8 +136,11 @@ framework ships Edge recipes: `vision_sft_edge` (generator T2V/I2V/V2V) and `vid
 | 1 convert | `just c3-train-convert nvidia/Cosmos3-Edge` | **PASS** — 6.3 GB DCP in `examples/checkpoints/Cosmos3-Edge`, 70 s. The recipe resolves the HF id to the local snapshot (the framework only accepts a registered name or a directory). Needs the Wan2.2 VAE (`Wan-AI/Wan2.2-TI2V-5B/Wan2.2_VAE.pth`, fetched automatically — do not set `HF_HUB_OFFLINE` unless it is cached). |
 | 2 dataset | `train/video_dataset_file.jsonl` (see framework `docs/dataset_jsonl.md`) | `vision_path` may be an absolute local path. **Every window needs ≥ 61 frames** (`get_sft_dataset(min_frames=61)`), otherwise the loader ends with `AssertionError: Did not find any data` after the model has already been built. |
 | 3 SFT, upstream config | `NPROC_PER_NODE=1 bash examples/launch_sft_vision_edge.sh` (45k-token packing, inductor on) | model build + DCP warm-start **PASS** (11.3 s); first step never completed: inductor compile ran > 15 min on arm64, host RAM climbed to 115 of 122 GB with no swap and **Thor rebooted** (04:33Z). Do **not** run the upstream config on a Jetson. |
-| 3 SFT, Thor config | same launcher + `TORCH_COMPILE_DISABLE=1` and `TAIL_OVERRIDES=(trainer.max_iter=5 checkpoint.save_iter=5 model.compile.enabled=false model.ema.enabled=false trainer.grad_accum_iter=1 model.max_num_tokens_after_packing=8192 dataloader_train.max_sequence_length=8192 dataloader_train.num_workers=1)` | warm-start **PASS**, steady at 92 of 122 GB host RAM, GPU 98 %; see the result line below. |
-| 4 export + infer | `cosmos_framework.scripts.export_model` → `Cosmos3OmniPipeline` | see below |
+| 3 SFT, Thor config | same launcher, **sourced** so the overrides apply (bash arrays are not exported to a child shell): `TORCH_COMPILE_DISABLE=1`, `TAIL_OVERRIDES=(trainer.max_iter=6 checkpoint.save_iter=6 model.config.ema.enabled=false trainer.grad_accum_iter=1 model.config.max_num_tokens_after_packing=8192)` | **PASS — 6 optimizer steps**: 70.1 / 49.3 / 50.2 / 49.7 / 50.3 / ~50 s, loss 1.33 / 1.81 / 1.16 / 1.68 / 1.40 / 2.24 (10-row smoke set), exit 0, DCP checkpoint 24 GB (with optimizer state). With the upstream 45k-token packing, eager mode also trains: 237 / 195 / 186 / 184 / 205 / 189 s per step at a steady 92 of 122 GB host RAM. |
+| 4 export | `export_model --checkpoint-path $CK --config-file $RUN_DIR/config.yaml --no-use-torch-compile --no-use-cuda-graphs -o $RUN_DIR/model` | **PASS** — 19 s, 7.2 GB HF directory, SigLIP2 vision tower + processor bundled, `export_manifest.json` written. |
+| 5 reload + infer | `python -m cosmos_framework.scripts.inference --parallelism-preset=latency -i t2i.json -o out --checkpoint-path $RUN_DIR/model --seed=0 --no-use-torch-compile --no-use-cuda-graphs` | **PASS** — text→image from the fine-tuned export in **78 s** wall (model load included; UniPC 50 steps with diffusion cache), `vision.jpg` 640×640. |
+| 5′ reload via `transformers` | `Cosmos3EdgeHFModel(model_id=$RUN_DIR/model)` | **loads but answers garbage** — the export's safetensors use the framework's key names (`model.net.language_model.model.layers…`, 544 tensors), not the `Cosmos3EdgeForConditionalGeneration` names (`layers…`, 698), so every weight is unmatched. Consume exports with the framework's inference script (above) or convert first. |
+| 5″ reload via Diffusers | `convert_model_to_diffusers` | **blocked upstream**: the framework venv pins `diffusers 0.39.0`, whose `Cosmos3OmniTransformer` lacks the Edge constructor args (`hidden_act`, `qk_norm_for_text`) — the converter says so and exits; `diffusers 0.41` conflicts with the venv's `huggingface-hub 1.33`. Until the framework bumps diffusers, `Cosmos3GeneratorModel` / `cosmos3_action_edge` cannot load an Edge fine-tune. |
 
 **Memory guard (Jetson):** `systemd-run --user --scope -p MemoryMax=80G` does **not** bound this
 process — GPU/UVM pages are not cgroup-accounted (the scope reported 18 GiB while the system was at
@@ -155,8 +158,10 @@ launches `/usr/bin/python3` without the framework (`ModuleNotFoundError: omegaco
 | convert → DCP | 70 s, 6.3 GB | same |
 | dataset prep / validation (`--dryrun`) | works | same |
 | `vision_sft_edge` upstream config | **reboots the box** (host RAM exhausted) | `NPROC_PER_NODE=8 bash examples/launch_sft_vision_edge.sh` — 500 iters, 45k-token packing, FSDP, EMA, torch.compile |
-| `vision_sft_edge` Thor config (eager, 8k packing, 1 worker) | model + warm-start fine; one optimizer step is very slow (see result line) | n/a |
-| export → Diffusers → `Cosmos3OmniPipeline` | `export_model --no-use-torch-compile --no-use-cuda-graphs` → `convert_model_to_diffusers` → reload; the chain is `c4_export_infer.sh` in the lane logs | same without the flags |
+| `vision_sft_edge` Thor config (eager, 8k packing) | **~50 s/step**, 6-step smoke + 24 GB checkpoint in ~8 min | n/a |
+| export → framework inference | `export_model` 19 s → `scripts.inference` t2i 78 s **works** | same without the eager flags |
+| export → Diffusers (`Cosmos3GeneratorModel`) | blocked by the framework's diffusers 0.39 pin (see 5″) | same blocker |
 
-In short: **use Thor to prepare and to validate** (convert, dataset, dry-run, export/reload of a checkpoint trained
-elsewhere, inference with `cosmos3_action_edge` / `Cosmos3EdgeHFModel`), and **train on the 8×H100 recipe**.
+In short: on a Thor you can **convert, build a dataset, run a short eager SFT (~50 s/step), export, and run framework
+inference from the export**; for real runs use the 8×H100 recipe, and expect the Diffusers/`transformers` reload of a
+fine-tune to need an upstream diffusers bump.
