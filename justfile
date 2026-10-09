@@ -867,6 +867,7 @@ c3-edge-doctor:
     PY
 
 # Edge reasoner smoke: caption an image or video in-process (HF_HUB_OFFLINE honoured).
+# Positional (just has no named args): just c3-edge-reason sample.mp4 "Caption in detail." 512
 c3-edge-reason media="ws_red.png" prompt="Caption in detail." max_tokens="512":
     #!/usr/bin/env bash
     set -euo pipefail
@@ -886,6 +887,7 @@ c3-edge-reason media="ws_red.png" prompt="Caption in detail." max_tokens="512":
     PY
 
 # Edge action smoke: policy rollout for a trained embodiment from one frame.
+# Positional: just c3-edge-action sample.png droid_lerobot "pick up the object" 8 /tmp/c3_edge_action
 c3-edge-action image="sample.png" embodiment="droid_lerobot" prompt="pick up the object" steps="8" out="/tmp/c3_edge_action":
     #!/usr/bin/env bash
     set -euo pipefail

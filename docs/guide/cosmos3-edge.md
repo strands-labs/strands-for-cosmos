@@ -21,6 +21,8 @@ Memory is `torch.cuda.max_memory_allocated()` (nvidia-smi reports N/A on Jetson)
 ```bash
 just c3-setup-edge        # .venv-c3-edge: torch(cu130) + transformers>=5.19 + diffusers>=0.40 + torchcodec/av
 just c3-edge-doctor       # prints what loads, which embodiments are trained
+just c3-edge-reason sample.mp4 "Caption in detail." 512      # just args are positional
+just c3-edge-action sample.png droid_lerobot "pick up the object" 8 /tmp/c3_edge_action
 ```
 
 `transformers 5.2` / `diffusers 0.35` cannot load this checkpoint (no `cosmos3_edge` model, no

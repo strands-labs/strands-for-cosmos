@@ -132,9 +132,17 @@ class Cosmos3EdgeHFModel(CosmosVisionModel):
         dtype = torch.bfloat16 if dtype_name in ("auto", "bfloat16") else getattr(torch, dtype_name)
         model_id = self.config["model_id"]
         logger.debug("model_id=<%s> | loading Cosmos3-Edge understanding tower", model_id)
-        self.model = cls.from_pretrained(
-            model_id, dtype=dtype, device_map=self.config.get("device_map", "auto")
-        ).eval()
+        # NOTE: device_map="auto" is deliberately NOT forwarded. On a Jetson AGX
+        # Thor (unified memory) accelerate decided to offload and then failed
+        # with a doubled path `transformer/transformer/…safetensors` for the
+        # hub id (measured, transformers 5.19.0). Plain load + .to(device) is
+        # what the published numbers were taken with (9.2-9.8 s, 4.549 GiB).
+        device_map = self.config.get("device_map", "auto")
+        if device_map in (None, "auto"):
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            self.model = cls.from_pretrained(model_id, dtype=dtype).to(device).eval()
+        else:
+            self.model = cls.from_pretrained(model_id, dtype=dtype, device_map=device_map).eval()
         # AutoProcessor needs torchvision (Cosmos3EdgeVideoProcessor) even for stills.
         self.processor = transformers.AutoProcessor.from_pretrained(model_id)
         logger.debug("cosmos3-edge loaded: %s", type(self.model).__name__)
