@@ -3,6 +3,7 @@
 """Wrapper around `just rtp-capture` — GStreamer RTP/H.264 frame capture."""
 from __future__ import annotations
 
+import os
 import tempfile
 from pathlib import Path
 
@@ -38,8 +39,14 @@ def rtp_capture_frame(
         A Strands tool-result dict ``{"status", "content"}``. On success the
         content carries the captured frame's path, with the image embedded in the result; on error ``status`` is ``"error"`` with a message.
     """
+    created_tmp = False
     if not output_path:
-        output_path = tempfile.mktemp(suffix=".jpg", prefix="cosmos_rtp_")
+        created_tmp = True
+        # mkstemp creates the file atomically (0600) so the name cannot be
+        # claimed by another process between pick and write (CWE-377). The
+        # capture recipe overwrites the (empty) file in place.
+        fd, output_path = tempfile.mkstemp(suffix=".jpg", prefix="cosmos_rtp_")
+        os.close(fd)
 
     # Output_path is LLM-controlled -> confine to workspace and pass via
     # $RTP_OUTPUT env (no {{param}} interpolation, CWE-78/CWE-22). bind_ip likewise
@@ -60,6 +67,8 @@ def rtp_capture_frame(
     captured = p.exists() and p.stat().st_size > 0
 
     if not captured:
+        if created_tmp:
+            p.unlink(missing_ok=True)
         return err(
             "no frame captured",
             data={"stderr": proc.get("stderr", "")[-600:], "cmd": proc.get("cmd")},
