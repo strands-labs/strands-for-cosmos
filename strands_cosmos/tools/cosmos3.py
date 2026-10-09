@@ -43,6 +43,20 @@ def _media_format(path_or_url: str, default: str) -> str:
 
 # Cache one reasoner provider per base_url so we reuse the OpenAI client.
 _reasoner_models: dict = {}
+# One in-process Cosmos3-Edge model per model id (weights are 4.5 GB; load once).
+_hf_models: dict = {}
+
+
+def _get_hf_reasoner(model_id: str):
+    """Return a cached ``Cosmos3EdgeHFModel`` (in-process Transformers, no server)."""
+    from strands_cosmos.cosmos3_edge_hf_model import Cosmos3EdgeHFModel
+    from strands_cosmos.cosmos3_models import resolve_model_id
+    mid = resolve_model_id(model_id or "nvidia/Cosmos3-Edge")
+    model = _hf_models.get(mid)
+    if model is None:
+        model = Cosmos3EdgeHFModel(model_id=mid)
+        _hf_models[mid] = model
+    return model
 
 
 def _get_reasoner(port: int):
@@ -63,7 +77,7 @@ def _get_reasoner(port: int):
     return model
 
 
-def _reason(prompt, image, video, task, port, max_tokens, think):
+def _reason(prompt, image, video, task, port, max_tokens, think, backend="server", model=""):
     """Run Cosmos 3 reasoning via the SDK `Cosmos3ReasonerModel` provider.
 
     prompt/image/video are LLM-controlled; image/video are emitted as
@@ -98,7 +112,16 @@ def _reason(prompt, image, video, task, port, max_tokens, think):
     messages = [{"role": "user", "content": content}]
 
     try:
-        model = _get_reasoner(port)
+        if backend not in ("server", "hf"):
+            raise ValueError(f"backend must be 'server' or 'hf', got {backend!r}")
+        if backend == "hf":
+            model = _get_hf_reasoner(model)
+            # the HF path resolves <image>/<video> paths itself; hand it tags, not URLs
+            if image or video:
+                tags = (f"<image>{image}</image>" if image else "") + (f"<video>{video}</video>" if video else "")
+                content[:] = [{"text": (tags + " " + text).strip()}]
+        else:
+            model = _get_reasoner(port)
         model.update_config(reasoning=bool(think), params={"max_tokens": int(max_tokens)})
 
         out_text = ""
@@ -124,8 +147,9 @@ def _reason(prompt, image, video, task, port, max_tokens, think):
             loop.close()
 
         rc = 1 if err_text else 0
+        where = model.config.get("base_url") or model.config.get("model_id")
         return {"ok": rc == 0, "returncode": rc, "stdout": out_text,
-                "stderr": err_text, "cmd": f"Cosmos3ReasonerModel@{model.config['base_url']}"}
+                "stderr": err_text, "cmd": f"{type(model).__name__}@{where}"}
     except Exception as e:  # SecurityError from media resolver, conn refused, etc.
         return {"ok": False, "returncode": 1, "stdout": "", "stderr": str(e),
                 "cmd": "Cosmos3ReasonerModel"}
@@ -133,6 +157,29 @@ def _reason(prompt, image, video, task, port, max_tokens, think):
 
 _GEN_MODES = {"text2image", "text2video", "image2video",
               "text2video-with-sound", "image2video-with-sound"}
+
+
+def _gen_model_id() -> str:
+    """Checkpoint the generator recipe will load (C3_GEN_MODEL, else C3_MODEL, else Nano)."""
+    import os
+    from strands_cosmos.cosmos3_models import resolve_model_id
+    return resolve_model_id(os.environ.get("C3_GEN_MODEL") or os.environ.get("C3_MODEL") or "")
+
+
+def _sound_unsupported(mode: str):
+    """Return an error result when the configured checkpoint has no sound tower.
+
+    ``nvidia/Cosmos3-Edge`` ships ``sound_gen=False``; failing here is cheaper
+    than loading 7 GB of weights to discover it.
+    """
+    if not mode.endswith("-with-sound"):
+        return None
+    from strands_cosmos.cosmos3_models import require_surface
+    try:
+        require_surface(_gen_model_id(), "sound")
+    except ValueError as e:
+        return err(str(e))
+    return None
 _GEN_RES = {"480", "720", "1080"}
 
 
@@ -145,6 +192,10 @@ def _gen(mode, prompt, image, out, frames, fps, steps, guidance, res, sound, see
     """
     if mode not in _GEN_MODES:
         return err(f"invalid generation mode: {mode!r}")
+    blocked = _sound_unsupported(mode)
+    if blocked is not None:
+        msg = blocked["content"][0]["text"]
+        return {"ok": False, "returncode": 2, "stdout": "", "stderr": msg, "cmd": "c3-gen (refused)"}
     if str(res) not in _GEN_RES:
         return err(f"invalid resolution: {res!r} (allowed: {sorted(_GEN_RES)})")
     return just_run(
@@ -189,10 +240,15 @@ def cosmos3_reason(
     port: int = 8000,
     max_tokens: int = 4096,
     think: bool = False,
+    backend: str = "server",
+    model: str = "",
 ) -> dict:
-    """Cosmos 3 Reasoner: text+vision -> text via local vLLM server.
+    """Cosmos 3 Reasoner: text+vision -> text.
 
-    Requires a running reasoner server (`just c3-serve-reason` / cosmos3_serve).
+    ``backend="server"`` (default) talks to a local vLLM server (`just
+    c3-serve-reason` / cosmos3_serve) — the only route for Cosmos3-Nano.
+    ``backend="hf"`` runs **nvidia/Cosmos3-Edge in-process** via Transformers
+    (>=5.19), no server; ~4.6 GB GPU, works on a Jetson AGX Thor.
 
     Args:
         prompt: User instruction.
@@ -202,12 +258,14 @@ def cosmos3_reason(
         port: vLLM server port.
         max_tokens: Output token cap.
         think: Enable explicit reasoning format.
+        backend: "server" (vLLM, default) or "hf" (in-process Cosmos3-Edge).
+        model: For backend="hf": checkpoint id/path (default nvidia/Cosmos3-Edge).
 
     Returns:
         A Strands tool-result dict ``{"status", "content"}``. On success the
         content carries the tool's output; on error ``status`` is ``"error"`` with a message.
     """
-    proc = _reason(prompt, image, video, task, port, max_tokens, think)
+    proc = _reason(prompt, image, video, task, port, max_tokens, think, backend, model)
     return proc_result(proc, success_text="cosmos3 reason result:",
                        fail_text=f"c3-reason failed: {proc.get('stderr','')[:200]}")
 
@@ -467,7 +525,7 @@ def cosmos3_text2video_sound(prompt: str, out: str = "/tmp/c3_t2v_sound.mp4",
     """Generate a video with a synchronized soundtrack from a text prompt.
 
     Cosmos 3 Generator with audio (stereo AAC @ 48kHz), locally via Diffusers — no
-    server required. Needs a sound-capable checkpoint (Cosmos3-Nano).
+    server required. Needs a sound-capable checkpoint (Cosmos3-Nano; Cosmos3-Edge has no sound tower and is refused early).
 
     Args:
         prompt: Text description of the content to generate.
@@ -484,7 +542,7 @@ def cosmos3_text2video_sound(prompt: str, out: str = "/tmp/c3_t2v_sound.mp4",
         content reports the output file path; on error ``status`` is ``"error"``.
     """
     proc = _gen("text2video-with-sound", prompt, "", out, frames, fps, steps, guidance, res, "true", seed)
-    return proc_result(proc, "cosmos3 text2video+sound -> " + out, "c3 t2v-sound failed")
+    return proc_result(proc, "cosmos3 text2video+sound -> " + out, f"c3 t2v-sound failed: {proc.get('stderr','')[:300]}")
 
 
 @tool
@@ -494,7 +552,7 @@ def cosmos3_image2video_sound(prompt: str, image: str, out: str = "/tmp/c3_i2v_s
     """Animate an image into a video with a synchronized soundtrack.
 
     Image-conditioned motion with synchronized stereo AAC @ 48kHz audio, locally
-    via Diffusers (no server). Needs a sound-capable checkpoint (Cosmos3-Nano).
+    via Diffusers (no server). Needs a sound-capable checkpoint (Cosmos3-Nano; Cosmos3-Edge has no sound tower and is refused early).
 
     Args:
         prompt: Text description of the motion / how the scene should evolve.
@@ -512,7 +570,7 @@ def cosmos3_image2video_sound(prompt: str, image: str, out: str = "/tmp/c3_i2v_s
         content carries the tool's output; on error ``status`` is ``"error"`` with a message.
     """
     proc = _gen("image2video-with-sound", prompt, image, out, frames, fps, steps, guidance, res, "true", seed)
-    return proc_result(proc, "cosmos3 image2video+sound -> " + out, "c3 i2v-sound failed")
+    return proc_result(proc, "cosmos3 image2video+sound -> " + out, f"c3 i2v-sound failed: {proc.get('stderr','')[:300]}")
 
 
 @tool
