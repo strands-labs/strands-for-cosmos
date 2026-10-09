@@ -1097,8 +1097,17 @@ c3-train-convert checkpoint=C3_MODEL out="":
     cd "{{C3_FRAMEWORK_REPO}}"
     name="$(basename '{{checkpoint}}')"
     out="{{out}}"; out="${out:-examples/checkpoints/$name}"
+    ckpt="{{checkpoint}}"
+    # The framework accepts a registered NAME (Cosmos3-Nano) or a LOCAL DIR, not an
+    # HF id: `nvidia/Cosmos3-Edge` fails with "Checkpoint directory does not exist".
+    # Resolve org/name to the local HF snapshot (downloads if not cached). Measured
+    # on Jetson AGX Thor: Cosmos3-Edge -> 6.3 GB DCP in 70 s (needs the Wan2.2 VAE
+    # from HF, so do not set HF_HUB_OFFLINE unless it is cached too).
+    case "$ckpt" in
+      */*) [ -d "$ckpt" ] || ckpt="$(.venv/bin/python -c "import sys;from huggingface_hub import snapshot_download as s;print(s(sys.argv[1]))" "$ckpt")";;
+    esac
     .venv/bin/python -m cosmos_framework.scripts.convert_model_to_dcp \
-      -o "$out" --checkpoint-path "{{checkpoint}}"
+      -o "$out" --checkpoint-path "$ckpt"
     echo "DCP checkpoint -> $out"
 
 # Step 2 (reasoner VLM) — merge Cosmos3 LM onto the Qwen3-VL visual tower.
@@ -1134,7 +1143,7 @@ c3-train-show recipe="vision_sft_nano":
       || { echo "(dryrun unavailable; showing raw recipe TOML)"; cat "$toml"; }
 
 # Step 3 — run SFT. Prefer the paired launch shell (handles paths + checks).
-# recipe: vision_sft_nano | vision_sft_super | llava_ov | videophy2_nano
+# recipe: vision_sft_nano | vision_sft_super | vision_sft_edge | llava_ov | videophy2_nano | videophy2_edge
 # nproc: GPUs (default 8). dataset/checkpoint: override default paths.
 c3-train recipe="vision_sft_nano" nproc=C3_TRAIN_NPROC dataset="" checkpoint="" overrides="":
     #!/usr/bin/env bash
