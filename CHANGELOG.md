@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- Cosmos 3 generator: asking for `res="1080"` gave you a 720p file and reported success, and `res="256"` was rejected even though the model supports it. The generator tools now accept the model's resolutions (`256`, `480`, `720`) and return an error for anything else.
 - Docs: the home page mermaid diagram (`--> RCosmos 3`) was a parse error; mermaid left its "Syntax error" box in `<body>` and instant navigation carried it onto every other page. Fixed the fence and added a grader (`tests/test_docs_health.py`) that checks every mermaid fence.
 - Docs: 54 raw-HTML asset paths were pinned to `/strands-cosmos/…`; the site lives at `/strands-for-cosmos/`, so every example GIF/MP4 on the home page and 11 detail pages 404'd. Paths are relative to the page URL now, and the grader refuses site-root-absolute paths.
 - Docs: the one-row header wrapped "Getting Started" and "API Reference" onto two lines and pushed the GitHub/Discord buttons off at 1280px. Top-level sections are one word each (Start, Reference with API Reference + Changelog under it), never wrap, and the row is verified at 1220 to 1680px.

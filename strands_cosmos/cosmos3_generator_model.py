@@ -191,12 +191,17 @@ class Cosmos3GeneratorModel(Model):
         Returns:
             Dict with status, mode, out_path, and params used.
         """
+        if str(resolution) not in RES_TIERS:
+            raise ValueError(
+                f"unsupported resolution {resolution!r}; Cosmos 3 supports {sorted(RES_TIERS)}"
+            )
+        width, height = RES_TIERS[str(resolution)]
+
         import torch
         from diffusers.utils import export_to_video
 
         pipe = self._load_pipeline()
 
-        width, height = RES_TIERS.get(resolution, RES_TIERS["720"])
         if mode == "text2image":
             num_frames = 1
 

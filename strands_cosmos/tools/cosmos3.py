@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from strands import tool
 
+from ..cosmos3_generator_model import RES_TIERS
 from ._common import err, just_run, ok, proc_result
 from ._security import SecurityError, resolve_in_workspace, resolve_output_path
 
@@ -133,7 +134,7 @@ def _reason(prompt, image, video, task, port, max_tokens, think):
 
 _GEN_MODES = {"text2image", "text2video", "image2video",
               "text2video-with-sound", "image2video-with-sound"}
-_GEN_RES = {"480", "720", "1080"}
+_GEN_RES = frozenset(RES_TIERS)
 
 
 def _gen(mode, prompt, image, out, frames, fps, steps, guidance, res, sound, seed):
@@ -396,7 +397,7 @@ def cosmos3_text2image(prompt: str, out: str = "/tmp/c3_image.png", steps: int =
         out: Output PNG file path to write.
         steps: Diffusion denoising steps (higher = slower, more detail).
         guidance: Classifier-free guidance scale.
-        res: Output resolution preset ("480", "720", or "1080").
+        res: Output resolution preset ("256", "480", or "720").
         seed: Random seed for reproducible generation.
 
     Returns:
@@ -422,7 +423,7 @@ def cosmos3_text2video(prompt: str, out: str = "/tmp/c3_t2v.mp4", frames: int = 
         fps: Frames per second of the output video.
         steps: Diffusion denoising steps (higher = slower, more detail).
         guidance: Classifier-free guidance scale.
-        res: Output resolution preset ("480", "720", or "1080").
+        res: Output resolution preset ("256", "480", or "720").
         seed: Random seed for reproducible generation.
 
     Returns:
@@ -449,7 +450,7 @@ def cosmos3_image2video(prompt: str, image: str, out: str = "/tmp/c3_i2v.mp4",
         fps: Frames per second of the output video.
         steps: Diffusion denoising steps (higher = slower, more detail).
         guidance: Classifier-free guidance scale.
-        res: Output resolution preset ("480", "720", or "1080").
+        res: Output resolution preset ("256", "480", or "720").
         seed: Random seed for reproducible generation.
 
     Returns:
@@ -476,7 +477,7 @@ def cosmos3_text2video_sound(prompt: str, out: str = "/tmp/c3_t2v_sound.mp4",
         fps: Frames per second of the output video.
         steps: Diffusion denoising steps (higher = slower, more detail).
         guidance: Classifier-free guidance scale.
-        res: Output resolution preset ("480", "720", or "1080").
+        res: Output resolution preset ("256", "480", or "720").
         seed: Random seed for reproducible generation.
 
     Returns:
@@ -504,7 +505,7 @@ def cosmos3_image2video_sound(prompt: str, image: str, out: str = "/tmp/c3_i2v_s
         fps: Frames per second of the output video.
         steps: Diffusion denoising steps (higher = slower, more detail).
         guidance: Classifier-free guidance scale.
-        res: Output resolution preset ("480", "720", or "1080").
+        res: Output resolution preset ("256", "480", or "720").
         seed: Random seed for reproducible generation.
 
     Returns:
