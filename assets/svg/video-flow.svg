@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 180" font-family="Inter, system-ui, sans-serif">
+  <defs><marker id="a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#76b900"/></marker></defs>
+  <rect width="700" height="180" fill="#fafafa" rx="12"/>
+  <text x="350" y="25" text-anchor="middle" font-size="13" font-weight="700">Video Understanding Pipeline</text>
+  
+  <!-- Steps -->
+  <rect x="20" y="50" width="110" height="80" rx="10" fill="#fff" stroke="#76b900" stroke-width="1.5"/>
+  <text x="75" y="75" text-anchor="middle" font-size="18">🎬</text>
+  <text x="75" y="95" text-anchor="middle" font-size="9" font-weight="600">Video Input</text>
+  <text x="75" y="108" text-anchor="middle" font-size="8" fill="#666">mp4 / avi / mov</text>
+  
+  <line x1="130" y1="90" x2="155" y2="90" stroke="#76b900" stroke-width="2" marker-end="url(#a)"/>
+  
+  <rect x="155" y="50" width="110" height="80" rx="10" fill="#fff" stroke="#76b900" stroke-width="1.5"/>
+  <text x="210" y="75" text-anchor="middle" font-size="18">🖼️</text>
+  <text x="210" y="95" text-anchor="middle" font-size="9" font-weight="600">Frame Sample</text>
+  <text x="210" y="108" text-anchor="middle" font-size="8" fill="#666">@ 4 fps default</text>
+  
+  <line x1="265" y1="90" x2="290" y2="90" stroke="#76b900" stroke-width="2" marker-end="url(#a)"/>
+  
+  <rect x="290" y="50" width="110" height="80" rx="10" fill="#fff" stroke="#76b900" stroke-width="1.5"/>
+  <text x="345" y="75" text-anchor="middle" font-size="18">👁️</text>
+  <text x="345" y="95" text-anchor="middle" font-size="9" font-weight="600">Vision Encoder</text>
+  <text x="345" y="108" text-anchor="middle" font-size="8" fill="#666">256-8192 tokens</text>
+  
+  <line x1="400" y1="90" x2="425" y2="90" stroke="#76b900" stroke-width="2" marker-end="url(#a)"/>
+  
+  <rect x="425" y="50" width="110" height="80" rx="10" fill="#76b900" opacity=".15" stroke="#76b900" stroke-width="2"/>
+  <text x="480" y="75" text-anchor="middle" font-size="18">🧠</text>
+  <text x="480" y="95" text-anchor="middle" font-size="9" font-weight="600">Qwen3-VL LLM</text>
+  <text x="480" y="108" text-anchor="middle" font-size="8" fill="#666">2B / 8B params</text>
+  
+  <line x1="535" y1="90" x2="560" y2="90" stroke="#76b900" stroke-width="2" marker-end="url(#a)"/>
+  
+  <rect x="560" y="50" width="120" height="80" rx="10" fill="#264653" stroke="none"/>
+  <text x="620" y="75" text-anchor="middle" font-size="18" fill="#fff">💬</text>
+  <text x="620" y="95" text-anchor="middle" font-size="9" font-weight="600" fill="#fff">Response</text>
+  <text x="620" y="108" text-anchor="middle" font-size="8" fill="#ccc">streaming text</text>
+  
+  <text x="350" y="160" text-anchor="middle" font-size="10" fill="#888">Cosmos-Reason2-2B: 7s load → 2.2s generation on Jetson AGX Thor (132GB unified)</text>
+</svg>

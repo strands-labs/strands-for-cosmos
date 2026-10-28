@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="480" height="480" role="img" aria-label="strands-cosmos hero">
+  <defs>
+    <linearGradient id="cg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a8e04a">
+        <animate attributeName="stop-color" values="#a8e04a;#76b900;#a8e04a" dur="5s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#76b900"/>
+      <stop offset="100%" stop-color="#3d6600">
+        <animate attributeName="stop-color" values="#3d6600;#76b900;#3d6600" dur="7s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <linearGradient id="cg2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#43e8d8"/>
+      <stop offset="100%" stop-color="#76b900"/>
+    </linearGradient>
+    <radialGradient id="pulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9">
+        <animate attributeName="stop-opacity" values="0.9;0.3;0.9" dur="2.8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="40%" stop-color="#a8e04a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#76b900" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feComposite in="SourceGraphic" in2="b" operator="over"/>
+    </filter>
+    <filter id="softglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <!-- Background glow -->
+  <circle cx="240" cy="240" r="200" fill="url(#pulse)" opacity="0.3"/>
+
+  <!-- Outer ring — galaxy orbit -->
+  <circle cx="240" cy="240" r="200" fill="none" stroke="url(#cg1)" stroke-width="1.5" opacity="0.4" stroke-dasharray="8 12">
+    <animateTransform attributeName="transform" type="rotate" from="0 240 240" to="360 240 240" dur="40s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Middle ring -->
+  <circle cx="240" cy="240" r="155" fill="none" stroke="#76b900" stroke-width="2" opacity="0.5" stroke-dasharray="4 8">
+    <animateTransform attributeName="transform" type="rotate" from="360 240 240" to="0 240 240" dur="28s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Inner ring — atom style -->
+  <ellipse cx="240" cy="240" rx="110" ry="45" fill="none" stroke="url(#cg2)" stroke-width="2" opacity="0.6">
+    <animateTransform attributeName="transform" type="rotate" from="0 240 240" to="360 240 240" dur="10s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="240" cy="240" rx="110" ry="45" fill="none" stroke="url(#cg1)" stroke-width="1.5" opacity="0.5">
+    <animateTransform attributeName="transform" type="rotate" from="60 240 240" to="420 240 240" dur="14s" repeatCount="indefinite"/>
+  </ellipse>
+  <ellipse cx="240" cy="240" rx="110" ry="45" fill="none" stroke="#43e8d8" stroke-width="1" opacity="0.4">
+    <animateTransform attributeName="transform" type="rotate" from="120 240 240" to="480 240 240" dur="18s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- Core hexagon -->
+  <g filter="url(#glow)">
+    <polygon points="240,185 288,213 288,267 240,295 192,267 192,213"
+             fill="none" stroke="#76b900" stroke-width="3" stroke-linejoin="round" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="0 240 240" to="360 240 240" dur="20s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
+
+  <!-- Core nucleus -->
+  <circle cx="240" cy="240" r="28" fill="url(#pulse)">
+    <animate attributeName="r" values="24;32;24" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="240" cy="240" r="10" fill="#ffffff" opacity="0.95">
+    <animate attributeName="opacity" values="0.95;0.5;0.95" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Orbiting particles -->
+  <g filter="url(#glow)">
+    <circle r="6" fill="#76b900">
+      <animateMotion dur="10s" repeatCount="indefinite" path="M240,40 A200,200 0 1,1 239.9,40 Z"/>
+      <animate attributeName="opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="4" fill="#a8e04a" opacity="0.8">
+      <animateMotion dur="14s" repeatCount="indefinite" path="M240,85 A155,155 0 1,0 239.9,85 Z"/>
+    </circle>
+    <circle r="3" fill="#43e8d8" opacity="0.7">
+      <animateMotion dur="7s" repeatCount="indefinite" path="M350,240 A110,45 0 1,1 349.9,240 Z"/>
+    </circle>
+    <circle r="2.5" fill="#ffffff" opacity="0.6">
+      <animateMotion dur="9s" repeatCount="indefinite" path="M240,130 A110,45 60 1,0 239.9,130 Z"/>
+    </circle>
+  </g>
+
+  <!-- Connection lines (neural net feel) -->
+  <g opacity="0.2">
+    <line x1="240" y1="240" x2="340" y2="140" stroke="#76b900" stroke-width="0.5">
+      <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite"/>
+    </line>
+    <line x1="240" y1="240" x2="140" y2="340" stroke="#43e8d8" stroke-width="0.5">
+      <animate attributeName="opacity" values="0.1;0.3;0.1" dur="5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="240" y1="240" x2="350" y2="300" stroke="#a8e04a" stroke-width="0.5">
+      <animate attributeName="opacity" values="0.1;0.35;0.1" dur="6s" repeatCount="indefinite"/>
+    </line>
+  </g>
+</svg>
